@@ -37,11 +37,8 @@ public class main {
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-		//TO MOJE ASDSDSDSDASDSADSADSA
-		//smrutdASDSDSADSADS
-		//JESZCZE WINCYJ
-
+		//KURDE
 	}
-//////////////PUSZA DAJEE
+
 	}
 }
