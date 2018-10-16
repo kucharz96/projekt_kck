@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 public class main {
     public static void main(String[] args) {
-    ssadsadsd
+    ssadsadsdfhfhg
     //to nowe
     try {
     	Interfejs Inter = new Interfejs();
