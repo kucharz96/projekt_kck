@@ -25,7 +25,7 @@ public class Interfejs {
 	public Interfejs() throws IOException {
 		this.terminal = new DefaultTerminalFactory().createTerminal();
         this.screen = new TerminalScreen(terminal);
-		
+		//sassaassaksadksk
 	}
 	public void Logowanie()  throws IOException { 
 		// Setup terminal and screen layers
