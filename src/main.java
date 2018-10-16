@@ -37,8 +37,7 @@ public class main {
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-//CHUL
-		//smrutd
+//CHULs
 	}
 
 	}
