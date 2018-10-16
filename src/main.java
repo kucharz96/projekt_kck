@@ -42,6 +42,6 @@ public class main {
 		//JESZCZE WINCYJ
 
 	}
-
+//////////////PUSZA DAJEE
 	}
 }
