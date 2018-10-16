@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 public class main {
     public static void main(String[] args) {
     
-    
+    //to nowe
     try {
     	Interfejs Inter = new Interfejs();
     	Inter.Logowanie();
@@ -42,6 +42,10 @@ public class main {
 		//ZMODYFIKOWANY KOMENTARZ
 		//KOLEJNY ZMODYFIKOWANY
 		//I JESZCZE KOLEJNY ZMODYFIKOWANY
+		
+		
+		
+		
 	}
 
 	}
