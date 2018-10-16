@@ -39,6 +39,7 @@ public class main {
 		e.printStackTrace();
 		//TO MOJE ASDSDSDSDASDSADSADSA
 		//smrutdASDSDSADSADS
+		//JESZCZE WINCYJ
 
 	}
 
