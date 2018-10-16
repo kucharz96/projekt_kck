@@ -37,15 +37,8 @@ public class main {
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-		//jakis komentarz
-		//jeszcze jeden komentarz
-		//ZMODYFIKOWANY KOMENTARZ
-		//KOLEJNY ZMODYFIKOWANY
-		//I JESZCZE KOLEJNY ZMODYFIKOWANY
-		
-		
-		
-		
+
+		//smrutd
 	}
 
 	}
