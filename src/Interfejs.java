@@ -30,6 +30,7 @@ import com.googlecode.lanterna.terminal.MouseCaptureMode;
 import com.googlecode.lanterna.terminal.Terminal;
 
 public class Interfejs {
+	private Centrala C;
 	private Terminal terminal;
 	private Screen screen;
 	private MultiWindowTextGUI gui;
@@ -43,20 +44,46 @@ public class Interfejs {
 		// Setup terminal and screen layers
         
         screen.startScreen();
-        
+    	BasicWindow window = new BasicWindow();
+
         // Create panel to hold components
-        Panel panel = new Panel();
-        panel.setLayoutManager(new GridLayout(2));
+        Panel mainpanel = new Panel();
+		
+
+		Panel panel_tmp = new Panel();
+		mainpanel.addComponent(panel_tmp.withBorder(Borders.singleLine("LOGOWANIE")));
+		Panel panel = new Panel();
+		panel_tmp.addComponent(new EmptySpace(new TerminalSize(0,1)));
+
+		panel_tmp.addComponent(panel);
+
+		panel.setLayoutManager(new GridLayout(4));
         
-        
+
         panel.addComponent(new Label("Login"));
+		panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
+
         panel.addComponent(new TextBox());
+		panel.addComponent(new EmptySpace(new TerminalSize(0,2)));
 
         panel.addComponent(new Label("Has³o"));
-        panel.addComponent(new TextBox());
+		panel.addComponent(new EmptySpace(new TerminalSize(0,0)));
 
-        panel.addComponent(new EmptySpace(new TerminalSize(0,0))); // Empty space underneath labels
-        Button button = new Button("Submit", new Runnable() {
+        panel.addComponent(new TextBox());
+		panel.addComponent(new EmptySpace(new TerminalSize(0,2)));
+
+        Button button = new Button("Zaloguj", new Runnable() {
+    		@Override
+    		public void run() {
+    			try {
+					Menu_rejestracja();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	});
+        Button button1 = new Button("Zamknij", new Runnable() {
     		@Override
     		public void run() {
     			try {
@@ -68,10 +95,13 @@ public class Interfejs {
     		}
     	});
         panel.addComponent(button);
+		panel.addComponent(new EmptySpace(new TerminalSize(0,0)));
+
+        panel.addComponent(button1);
+
         // Create window to hold the panel
-    	BasicWindow window = new BasicWindow();
     	window.setHints(Arrays.asList(Window.Hint.CENTERED));
-        window.setComponent(panel);
+        window.setComponent(mainpanel);
 
         // Create gui and start gui
         gui.addWindowAndWait(window);

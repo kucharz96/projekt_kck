@@ -11,7 +11,26 @@ public class Centrala {
 	private List<Recepta> recepty = new ArrayList<Recepta>();
 	private List<Skierowanie> skierowania = new ArrayList<Skierowanie>();
 	private List<Wizyta> wizyty = new ArrayList<Wizyta>();
-	
+	public Centrala() {
+		
+		addPacjent(new Pacjent(0,"96123983764", "Janusz", "Tracz", 12, "Ro¿ana", 6, 16,
+				"Bia³ystok"));
+		addPacjent(new Pacjent(1,"96123983345", "Jan", "Tra", 11, "Ro¿any", 9, 9,
+				"Warszawa"));
+		addPacjent(new Pacjent(2,"96123934567", "Marek", "Rafa³", 1, "Bia³a", 2, 3,
+				"Poznañ"));
+		
+addLekarz(new Lekarz("kucharz96", "1234", "Jan", "Wacek", 35, 100, "111111111"));
+		
+		addLekarz(new Lekarz("jankomuzykant", "12346", "Kamil", "Kowalski", 30, 110, "111111112"));
+		
+		addLekarz(new Lekarz("cos96", "ser123", "Magda", "Nowakowska", 45, 200, "211111111"));
+
+		
+		
+		
+		
+	}
 	
 	public List<Lekarz> getLekarze() {
 		return lekarze;

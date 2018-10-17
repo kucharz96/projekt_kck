@@ -10,6 +10,7 @@
 //
 //saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 public class Pacjent {
+	private int id_lekarza;
 	private String pesel;
 	private String imie;
 	private String nazwisko;
@@ -18,9 +19,10 @@ public class Pacjent {
 	private int nr_domu;
 	private int nr_mieszkania;
 	private String miejscowosc;
-	Pacjent(String pesel, String imie, String nazwisko, int wiek, String ulica, int nr_domu, int nr_mieszkania,
+	Pacjent(int id_lekarza,String pesel, String imie, String nazwisko, int wiek, String ulica, int nr_domu, int nr_mieszkania,
 			String miejscowosc)
 	{
+		this.id_lekarza = id_lekarza;
 		this.imie = imie;
 		this.pesel = pesel;
 		this.nazwisko = nazwisko;
@@ -77,5 +79,11 @@ public class Pacjent {
 	}
 	public void setMiejscowosc(String miejscowosc) {
 		this.miejscowosc = miejscowosc;
+	}
+	public int getLekarz() {
+		return id_lekarza;
+	}
+	public void setLekarz(int id) {
+		this.id_lekarza = id;
 	}
 }
