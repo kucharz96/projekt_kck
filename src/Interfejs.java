@@ -4,35 +4,24 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Button;
-import com.googlecode.lanterna.gui2.DefaultWindowManager;
-import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
-import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.Window;
-import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder;
-import com.googlecode.lanterna.gui2.dialogs.FileDialogBuilder;
-import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
-import com.googlecode.lanterna.gui2.table.Table;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.MouseCaptureMode;
 import com.googlecode.lanterna.terminal.Terminal;
-
-import javafx.scene.paint.Color;
 
 public class Interfejs {
 	private Centrala C;
@@ -71,7 +60,7 @@ public class Interfejs {
 		TextBox login = new TextBox();
         panel.addComponent(login);
 		panel.addComponent(new EmptySpace(new TerminalSize(0,2)));
-		TextBox haslo = new TextBox();
+		TextBox haslo = new TextBox().setMask('*');
 
         panel.addComponent(new Label("Has³o"));
 		panel.addComponent(new EmptySpace(new TerminalSize(0,0)));
@@ -104,7 +93,7 @@ public class Interfejs {
     		@Override
     		public void run() {
     			try {
-					Menu_rejestracja();
+					terminal.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
