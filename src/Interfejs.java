@@ -22,6 +22,9 @@ import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.FileDialogBuilder;
+import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
+import com.googlecode.lanterna.gui2.dialogs.MessageDialogBuilder;
+import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.googlecode.lanterna.gui2.table.Table;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -29,12 +32,15 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.MouseCaptureMode;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import javafx.scene.paint.Color;
+
 public class Interfejs {
 	private Centrala C;
 	private Terminal terminal;
 	private Screen screen;
 	private MultiWindowTextGUI gui;
 	public Interfejs() throws IOException {
+		C = new Centrala();
 		this.terminal = new DefaultTerminalFactory().setMouseCaptureMode(MouseCaptureMode.CLICK).createTerminal();
         this.screen = new TerminalScreen(terminal);
         gui = new MultiWindowTextGUI(screen);
@@ -62,21 +68,32 @@ public class Interfejs {
 
         panel.addComponent(new Label("Login"));
 		panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
-
-        panel.addComponent(new TextBox());
+		TextBox login = new TextBox();
+        panel.addComponent(login);
 		panel.addComponent(new EmptySpace(new TerminalSize(0,2)));
+		TextBox haslo = new TextBox();
 
         panel.addComponent(new Label("Has³o"));
 		panel.addComponent(new EmptySpace(new TerminalSize(0,0)));
 
-        panel.addComponent(new TextBox());
+        panel.addComponent(haslo);
 		panel.addComponent(new EmptySpace(new TerminalSize(0,2)));
 
         Button button = new Button("Zaloguj", new Runnable() {
     		@Override
     		public void run() {
     			try {
-					Menu_rejestracja();
+					if(C.Logowanie(login.getText(),haslo.getText()).equals("")){
+						new MessageDialogBuilder()
+					.setTitle("B³¹d logowania")
+					.setText("Nieprawid³owe has³o lub login")
+
+					.addButton(MessageDialogButton.Close)
+					.build()
+					.showDialog(gui);
+					}
+					if(C.Logowanie(login.getText(),haslo.getText()).equals("admin"))
+						Menu_rejestracja();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -113,7 +130,8 @@ public class Interfejs {
 	
 	public void Menu_rejestracja() throws IOException {
 		screen.clear();
-		BasicWindow window = new BasicWindow();
+		gui = new MultiWindowTextGUI(screen);
+		/*BasicWindow window = new BasicWindow();
         ActionListBox actionListBox = new ActionListBox();
         actionListBox.addItem("jjjj", new Runnable() {
     		@Override
@@ -140,7 +158,36 @@ System.out.println("aaa");    		}
 		rightPanel.addComponent(new EmptySpace(new TerminalSize(47,18)));
 
 		window.setComponent(mainPanel);
-		gui.addWindowAndWait(window);
+		gui.addWindowAndWait(window);*/
+		new ActionListDialogBuilder()
+		.setTitle("Menu rejestracji")
+		.setDescription("Wybierz opcje")
+		.addAction("Zarz¹dzanie pacjentami", new Runnable() {
+		    @Override
+		    public void run() {
+		        // Do 1st thing...
+		    }
+		})
+		.addAction("Zarz¹dzanie lekarzami", new Runnable() {
+		    @Override
+		    public void run() {
+		        // Do 2nd thing...
+		    }
+		})
+		.addAction("Wyloguj", new Runnable() {
+		    @Override
+		    public void run() {
+		        // Do 3rd thing...
+		    }
+		})
+		.addAction("Zamknij", new Runnable() {
+		    @Override
+		    public void run() {
+		        // Do 3rd thing...
+		    }
+		})
+		.build()
+		.showDialog(gui);
 	}
 	
 }

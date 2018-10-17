@@ -50,11 +50,12 @@ addLekarz(new Lekarz("kucharz96", "1234", "Jan", "Wacek", 35, 100, "111111111"))
 	}
 	public String Logowanie(String login, String haslo)
 	{
-		if(login == "admin" && haslo == "admin")
+		if(login.equals("admin") && haslo.equals("admin"))
 			return login;
+		
 		for (Lekarz a : lekarze)
 		{
-			if(a.getLogin() == login && a.getHaslo() == haslo)
+			if(a.getLogin().equals(login) && a.getHaslo().equals(haslo))
 				return login;
 		}
 		return "";
