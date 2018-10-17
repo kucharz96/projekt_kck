@@ -3,13 +3,17 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
+import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
@@ -33,13 +37,13 @@ public class Interfejs {
 		this.terminal = new DefaultTerminalFactory().setMouseCaptureMode(MouseCaptureMode.CLICK).createTerminal();
         this.screen = new TerminalScreen(terminal);
         gui = new MultiWindowTextGUI(screen);
-        //sassaassaksadksk,,,,
+        screen.startScreen();
 	}
 	public void Logowanie()  throws IOException { 
 		// Setup terminal and screen layers
         
-        screen.startScreen();
     	BasicWindow window = new BasicWindow();
+
 
         // Create panel to hold components
         Panel mainpanel = new Panel();
@@ -120,34 +124,7 @@ public class Interfejs {
 	public void Menu_rejestracja() throws IOException {
 		screen.clear();
 		gui = new MultiWindowTextGUI(screen);
-		/*BasicWindow window = new BasicWindow();
-        ActionListBox actionListBox = new ActionListBox();
-        actionListBox.addItem("jjjj", new Runnable() {
-    		@Override
-    		public void run() {
-    			// Code to run when action activated
-    		}
-    	});
-        actionListBox.addItem("ww", new Runnable() {
-    		@Override
-    		public void run() {
-System.out.println("aaa");    		}
-    	});
-        actionListBox.setPreferredSize(new TerminalSize(4,4));
-
-        Panel mainPanel = new Panel();
-		mainPanel.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
-
-		Panel leftPanel = new Panel();
-		mainPanel.addComponent(leftPanel.withBorder(Borders.singleLine("Left Panel")));
-		leftPanel.addComponent(actionListBox);
-		Panel rightPanel = new Panel();
-		mainPanel.addComponent(rightPanel.withBorder(Borders.singleLine("Right Panel")));
-		leftPanel.addComponent(new EmptySpace(new TerminalSize(20,17)));
-		rightPanel.addComponent(new EmptySpace(new TerminalSize(47,18)));
-
-		window.setComponent(mainPanel);
-		gui.addWindowAndWait(window);*/
+		
 		new ActionListDialogBuilder()
 		.setTitle("Menu rejestracji")
 		.setDescription("Wybierz opcje")
@@ -177,6 +154,34 @@ System.out.println("aaa");    		}
 		})
 		.build()
 		.showDialog(gui);
+	}
+	
+	public void Okno_pacjenta() {
+		screen.clear();
+		gui = new MultiWindowTextGUI(screen);
+		BasicWindow window = new BasicWindow();
+       Window widn = null;;
+
+        Panel mainPanel = new Panel().setPreferredSize(new TerminalSize(75,20));
+        		
+        
+		mainPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
+		
+		Panel upPanel = new Panel().setPreferredSize(new TerminalSize(75,2));
+		mainPanel.addComponent(upPanel.withBorder(Borders.singleLine("Katalogi")));
+		
+		Panel cointainerPanel = new Panel().setPreferredSize(new TerminalSize(75,8));
+		mainPanel.addComponent(cointainerPanel.withBorder(Borders.singleLine("Cointainer")));
+		cointainerPanel.addComponent(new EmptySpace());
+		Panel basePanel = new Panel().setPreferredSize(new TerminalSize(77,3));
+		mainPanel.addComponent(basePanel.withBorder(Borders.singleLine("Cointainer")));
+		window.setComponent(mainPanel);
+		gui.addWindowAndWait(window);
+		
+		
+		
+		
+		
 	}
 	
 }

@@ -5,11 +5,12 @@ import java.util.regex.Pattern;
 
 public class main {
     public static void main(String[] args) {
-    //xckcxxzlkclx
+    
+    	//xckcxxzlkclx
     //to nowe
     try {
     	Interfejs Inter = new Interfejs();
-    	Inter.Logowanie();
+    	Inter.Okno_pacjenta();;
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
