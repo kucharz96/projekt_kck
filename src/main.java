@@ -10,7 +10,7 @@ public class main {
     //to nowe
     try {
     	Interfejs Inter = new Interfejs();
-    	Inter.Okno_pacjenta();;
+    	Inter.Okno_pacjenta();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

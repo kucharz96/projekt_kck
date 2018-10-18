@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
@@ -21,11 +22,13 @@ import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
+import com.googlecode.lanterna.gui2.table.Table;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.MouseCaptureMode;
 import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.TerminalResizeListener;
 
 public class Interfejs {
 	private Centrala C;
@@ -34,10 +37,11 @@ public class Interfejs {
 	private MultiWindowTextGUI gui;
 	public Interfejs() throws IOException {
 		C = new Centrala();
-		this.terminal = new DefaultTerminalFactory().setMouseCaptureMode(MouseCaptureMode.CLICK).createTerminal();
+		this.terminal = new DefaultTerminalFactory().createTerminal();
         this.screen = new TerminalScreen(terminal);
         gui = new MultiWindowTextGUI(screen);
         screen.startScreen();
+        
 	}
 	public void Logowanie()  throws IOException { 
 		// Setup terminal and screen layers
@@ -160,21 +164,33 @@ public class Interfejs {
 		screen.clear();
 		gui = new MultiWindowTextGUI(screen);
 		BasicWindow window = new BasicWindow();
-       Window widn = null;;
+       
 
-        Panel mainPanel = new Panel().setPreferredSize(new TerminalSize(75,20));
+        Panel mainPanel = new Panel().setPreferredSize(new TerminalSize(170,45));
         		
         
 		mainPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
 		
-		Panel upPanel = new Panel().setPreferredSize(new TerminalSize(75,2));
+		Panel upPanel = new Panel().setPreferredSize(new TerminalSize(170,2));
 		mainPanel.addComponent(upPanel.withBorder(Borders.singleLine("Katalogi")));
 		
-		Panel cointainerPanel = new Panel().setPreferredSize(new TerminalSize(75,8));
+		Panel cointainerPanel = new Panel().setPreferredSize(new TerminalSize(170,5));
 		mainPanel.addComponent(cointainerPanel.withBorder(Borders.singleLine("Cointainer")));
 		cointainerPanel.addComponent(new EmptySpace());
-		Panel basePanel = new Panel().setPreferredSize(new TerminalSize(77,3));
+		Panel basePanel = new Panel().setPreferredSize(new TerminalSize(170,37));
 		mainPanel.addComponent(basePanel.withBorder(Borders.singleLine("Cointainer")));
+		
+		Table<String> table = new Table<String>("Pesel","Imie","Nazwisko","Wiek");
+		for(Pacjent a : C.getPacjenci()) {
+			table.getTableModel().addRow(a.getPesel(), a.getImie(), a.getNazwisko(), Integer.toString(a.getWiek()));
+
+			
+		}
+		basePanel.addComponent(new EmptySpace());
+		basePanel.addComponent(table);
+		
+		Panel base1Panel = new Panel().setPreferredSize(new TerminalSize(170,3));
+		mainPanel.addComponent(base1Panel.withBorder(Borders.singleLine("Cointainer")));
 		window.setComponent(mainPanel);
 		gui.addWindowAndWait(window);
 		
