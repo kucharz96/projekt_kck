@@ -43,12 +43,11 @@ public class Interfejs {
         screen.startScreen();
         
 	}
+	//////////////LOGOWANIE//////////////////////////////////
 	public void Logowanie()  throws IOException { 
 		// Setup terminal and screen layers
         
     	BasicWindow window = new BasicWindow();
-
-
         // Create panel to hold components
         Panel mainpanel = new Panel();
 		
@@ -115,16 +114,13 @@ public class Interfejs {
 
         // Create window to hold the panel
     	window.setHints(Arrays.asList(Window.Hint.CENTERED));
+    	//window.setSize(new TerminalSize(50, 10));
         window.setComponent(mainpanel);
 
         // Create gui and start gui
         gui.addWindowAndWait(window);
 
-		
-		
-		
 	}
-	
 	public void Menu_rejestracja() throws IOException {
 		screen.clear();
 		gui = new MultiWindowTextGUI(screen);
@@ -159,7 +155,15 @@ public class Interfejs {
 		.build()
 		.showDialog(gui);
 	}
-	
+	public void Okno_glowne()
+	{
+		BasicWindow window = new BasicWindow();
+		Panel mainPanel = new Panel();
+		window.setHints(Arrays.asList(Window.Hint.EXPANDED));
+		window.setComponent(mainPanel);
+		gui.addWindowAndWait(window);
+		
+	}
 	public void Okno_pacjenta() {
 		screen.clear();
 		gui = new MultiWindowTextGUI(screen);
@@ -177,7 +181,7 @@ public class Interfejs {
 		Panel cointainerPanel = new Panel().setPreferredSize(new TerminalSize(170,5));
 		mainPanel.addComponent(cointainerPanel.withBorder(Borders.singleLine("Cointainer")));
 		cointainerPanel.addComponent(new EmptySpace());
-		Panel basePanel = new Panel().setPreferredSize(new TerminalSize(170,37));
+		Panel basePanel = new Panel().setPreferredSize(new TerminalSize(170,30));
 		mainPanel.addComponent(basePanel.withBorder(Borders.singleLine("Cointainer")));
 		
 		Table<String> table = new Table<String>("Pesel","Imie","Nazwisko","Wiek");
