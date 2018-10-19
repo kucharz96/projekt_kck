@@ -11,9 +11,11 @@ import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.ComboBox;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
+import com.googlecode.lanterna.gui2.InputFilter;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
@@ -160,15 +162,52 @@ public class Interfejs {
 	{
 		BasicWindow window = new BasicWindow();
 		Panel mainPanel = new Panel();
-		window.setHints(Arrays.asList(Window.Hint.EXPANDED));
-		window.setHints(Arrays.asList(Window.Hint.FULL_SCREEN,Window.Hint.NO_DECORATIONS));
+		window.setHints(Arrays.asList(Window.Hint.FULL_SCREEN,Window.Hint.NO_DECORATIONS,Window.Hint.FIT_TERMINAL_WINDOW));
 		StringBuilder abc = new StringBuilder();
 		for(int a = 0;a<200;a++)
 		abc.append(" ");
+		
 		mainPanel.addComponent(new Label(abc.toString()).setBackgroundColor(TextColor.ANSI.BLUE)
 				.setForegroundColor(TextColor.ANSI.WHITE));
-		
+		mainPanel.addComponent(new EmptySpace());
 
+		Panel menu = new Panel().setPreferredSize(new TerminalSize(175,1));
+		menu.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
+
+		mainPanel.addComponent(menu.withBorder(Borders.singleLine("Katalogi")));
+		ActionListBox actionListBox = new ActionListBox();
+	
+		
+		Button Pacjent = new Button("Pacjenci");
+		Button Wizyty = new Button("Wizyty");
+		Button Skierowania = new Button("Skierowania");
+		Button Recepty = new Button("Recepty");
+		Pacjent.setRenderer(null);
+
+		menu.addComponent(Pacjent);
+		menu.addComponent(Wizyty);
+		menu.addComponent(Skierowania);
+		menu.addComponent(Recepty);
+		
+		Panel info = new Panel().setPreferredSize(new TerminalSize(175,1));
+		mainPanel.addComponent(info);
+		info.setLayoutManager(new GridLayout(2));
+		
+		TextBox wyszukiwarka = new TextBox().setPreferredSize(new TerminalSize(12,1));
+        info.addComponent(new Label("Podaj pesel: "));
+		info.addComponent(wyszukiwarka);
+		Panel cointainer = new Panel().setPreferredSize(new TerminalSize(175,15));
+		mainPanel.addComponent(cointainer.withBorder(Borders.singleLine("Katalogi")));
+
+
+
+
+        
+
+
+
+		
+		
 		window.setComponent(mainPanel);
 		gui.addWindowAndWait(window);
 		
