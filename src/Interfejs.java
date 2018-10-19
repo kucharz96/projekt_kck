@@ -6,6 +6,7 @@ import java.util.List;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
@@ -160,6 +161,14 @@ public class Interfejs {
 		BasicWindow window = new BasicWindow();
 		Panel mainPanel = new Panel();
 		window.setHints(Arrays.asList(Window.Hint.EXPANDED));
+		window.setHints(Arrays.asList(Window.Hint.FULL_SCREEN,Window.Hint.NO_DECORATIONS));
+		StringBuilder abc = new StringBuilder();
+		for(int a = 0;a<200;a++)
+		abc.append(" ");
+		mainPanel.addComponent(new Label(abc.toString()).setBackgroundColor(TextColor.ANSI.BLUE)
+				.setForegroundColor(TextColor.ANSI.WHITE));
+		
+
 		window.setComponent(mainPanel);
 		gui.addWindowAndWait(window);
 		
