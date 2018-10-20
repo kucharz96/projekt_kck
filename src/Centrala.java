@@ -49,8 +49,12 @@ public class Centrala {
 		
 		addLekarz(new Lekarz("cos96", "ser123", "Magda", "Nowakowska", 45, 200, "211111111"));
 
-		
-		
+		addWizyta(new Wizyta(0, "96123934567", "chorysssssssssssss", "12-10-2005 12:00"));
+		addWizyta(new Wizyta(1, "96123983764", "chory", "12-10-2010 12:20"));
+		addSkierowanie(new Skierowanie(0, "96123934567", "chorysssssssssssss", "z³amanie"));
+		addSkierowanie(new Skierowanie(1, "96123983764", "chory", "z³amany piszczel przez Rafona"));
+		addRecepta(new Recepta(0, "96123934567", "chorysssssssssssss"));
+		addRecepta(new Recepta(1, "96123983764", "chory"));
 		
 		
 	}

@@ -45,7 +45,10 @@ import com.googlecode.lanterna.terminal.TerminalResizeListener;
 import javafx.scene.shape.Sphere;
 
 public class Interfejs {
+	private Panel container;
+	private Table<String> table;
 	private Centrala C;
+	private TextBox wyszukiwarka1;
 	private Button Pacjent;
 	private Button Skierowania;
 	private Button Wizyty;
@@ -170,7 +173,7 @@ public class Interfejs {
 	}
 	public class KeyStrokeListener implements WindowListener {
 		
-		private boolean focus ;
+		private boolean focus1,focus2,focus3,focus4 ;
 		
 		public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
 	    	if(keyStroke.getKeyType() == KeyType.F6)
@@ -203,9 +206,15 @@ public class Interfejs {
 			.build()
 			.showDialog(gui);
 	    	}
-	    	if(keyStroke.getKeyType() == KeyType.ArrowDown && focus == true) {
-	    		Pacjent.onEnterFocus(null, null);
-	    	
+	    	if(basePane.getFocusedInteractable() == wyszukiwarka1 && keyStroke.getKeyType() == KeyType.ArrowUp ) {
+	    		
+
+	    		Pacjent.onLeaveFocus(null, null);
+	    		Skierowania.onLeaveFocus(null, null);
+	    		Wizyty.onLeaveFocus(null, null);
+	    		Recepty.onLeaveFocus(null, null);
+	    		container.removeAllComponents();
+	    		
 	    	}
 	    }
 
@@ -218,12 +227,8 @@ public class Interfejs {
 	    }
 
 		public void onMoved(Window window, TerminalPosition oldPosition, TerminalPosition newPosition) {
-	    	Window win = window;
-			if(win.getCursorPosition() == null || (win.getCursorPosition().getRow()==3 &&(win.getCursorPosition().getColumn() == 2 
-				|| win.getCursorPosition().getColumn() == 13 || win.getCursorPosition().getColumn() == 22
-				|| win.getCursorPosition().getColumn() == 36) ))
-					focus = true;
-				
+	    
+		
 		}		
 	}
 	public void Okno_glowne() throws IOException
@@ -247,50 +252,24 @@ public class Interfejs {
 
 		Panel menu = new Panel().setPreferredSize(new TerminalSize(175,1));
 		menu.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
-		Panel container = new Panel().setPreferredSize(new TerminalSize(175,12));
+		container = new Panel().setPreferredSize(new TerminalSize(175,12));
 		mainPanel.addComponent(menu.withBorder(Borders.singleLine("Katalogi")));
 		Panel info = new Panel().setPreferredSize(new TerminalSize(175,1));
 		Panel base1Panel = new Panel().setPreferredSize(new TerminalSize(175,3));
 		ActionListBox actionListBox = new ActionListBox();
-
+		wyszukiwarka1 = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,11}"));
+		wyszukiwarka1.setEnabled(false);
 		
 		Pacjent = new Button("Pacjenci", new Runnable() {
 		
 
 			@Override
 			public void run() {
-				System.out.println(window.getCursorPosition());
-
-			}});
-		Wizyty = new Button("Wizyty", new Runnable() {
-
-			@Override
-			public void run() {
-				
-			}});
-		Skierowania = new Button("Skierowania",new Runnable() {
-
-			
-			public void run() {
-				Recepty.onEnterFocus(null, Recepty);				
-			}});
-		Recepty = new Button("Recepty", new Runnable() {
-
-			@Override
-			public void run() {
-				
-			}});
-		TextBox wyszukiwarka = new TextBox().setPreferredSize(new TerminalSize(12,1));
-
-	
-		
-		
-	
-		Table<String> table = new Table<String>("Pesel","Imie","Nazwisko","Wiek", "Ulica", "Numer domu", "Numer mieszkania", "Miejscowoœæ");
-		Pacjent = new Button("Pacjenci", new Runnable() {
-			
-			@Override
-			public void run() {
+				table = new Table<String>("Pesel","Imie","Nazwisko","Wiek", "Ulica", "Numer domu", "Numer mieszkania", "Miejscowoœæ");
+				wyszukiwarka1.setEnabled(true);
+				window.setFocusedInteractable(wyszukiwarka1);
+				Pacjent.onEnterFocus(null, null);	
+				table.setVisibleColumns(30);
 				table.setVisibleRows(10);
 				for(Pacjent a : C.getPacjenci()) {
 					table.getTableModel().addRow(a.getPesel(), a.getImie(), a.getNazwisko(), Integer.toString(a.getWiek()), a.getUlica(), Integer.toString(a.getNr_domu()),
@@ -305,8 +284,86 @@ public class Interfejs {
 				}
 				
 				
-			}
-		});
+			
+			}});
+		Wizyty = new Button("Wizyty", new Runnable() {
+
+			@Override
+			public void run() {
+				wyszukiwarka1.setEnabled(true);
+				window.setFocusedInteractable(wyszukiwarka1);
+				
+				Wizyty.onEnterFocus(null, null);
+				table = new Table<String>("Pesel","Imie lekarza","Nazwisko lekarza","Data", "Opis");
+				
+				table.setVisibleColumns(175);
+				table.setVisibleRows(10);
+				for(Wizyta a : C.getWizyty()) {
+					table.getTableModel().addRow(a.getPesel_pacjenta(),C.getLekarze().get(a.getId_lekarza()).getImie() ,
+							C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(),a.getOpis());
+				}
+				if(!container.containsComponent(table))
+				{
+					System.out.println("True");
+					container.removeAllComponents();
+					container.addComponent(new EmptySpace());
+					container.addComponent(table);
+				}
+			}});
+		Skierowania = new Button("Skierowania",new Runnable() {
+
+			
+			public void run() {
+				wyszukiwarka1.setEnabled(true);
+				window.setFocusedInteractable(wyszukiwarka1);
+				
+				Skierowania.onEnterFocus(null, null);	
+				table = new Table<String>("Pesel","Imie lekarza","Nazwisko lekarza","Data", "Opis","Cel");
+				
+				table.setVisibleColumns(7);
+				table.setVisibleRows(10);
+				for(Skierowanie a : C.getSkierowania()) {
+					table.getTableModel().addRow(a.getPesel_pacjenta(),C.getLekarze().get(a.getId_lekarza()).getImie() ,
+							C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(),a.getOpis(),a.getCel());
+				}
+				if(!container.containsComponent(table))
+				{
+					System.out.println("True");
+					container.removeAllComponents();
+					container.addComponent(new EmptySpace());
+					container.addComponent(table);
+				}	
+			}});
+		Recepty = new Button("Recepty", new Runnable() {
+
+			@Override
+			public void run() {
+				wyszukiwarka1.setEnabled(true);
+				window.setFocusedInteractable(wyszukiwarka1);
+				
+				Recepty.onEnterFocus(null, null);
+				table = new Table<String>("Pesel","Imie lekarza","Nazwisko lekarza","Data", "Opis");
+				
+				table.setVisibleColumns(7);
+				table.setVisibleRows(10);
+				for(Recepta a : C.getRecepty()) {
+					table.getTableModel().addRow(a.getPesel_pacjenta(),C.getLekarze().get(a.getId_lekarza()).getImie() ,
+							C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(),a.getOpis());
+				}
+				if(!container.containsComponent(table))
+				{
+					System.out.println("True");
+					container.removeAllComponents();
+					container.addComponent(new EmptySpace());
+					container.addComponent(table);
+				}	
+			}});
+
+	
+		
+		
+	
+		
 		
 		
 
@@ -319,8 +376,8 @@ public class Interfejs {
 		mainPanel.addComponent(info);
 		info.setLayoutManager(new GridLayout(2));
 
-		TextBox wyszukiwarka1 = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,11}"));
-        info.addComponent(new Label("Podaj pesel: "));
+     
+		info.addComponent(new Label("Podaj pesel: "));
 		info.addComponent(wyszukiwarka1);
 
 		Panel base1Panel1 = new Panel().setPreferredSize(new TerminalSize(175,1));
