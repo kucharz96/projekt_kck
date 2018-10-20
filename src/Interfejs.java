@@ -266,7 +266,7 @@ public class Interfejs {
 	    		container.removeAllComponents();
 	    		wyszukiwarka1.setEnabled(false);
 	    		basePane.setFocusedInteractable(Pacjent);
-	    		//window.removeWindowListener(listener0);
+	    		window.removeWindowListener(listener0);
 	    		//window.removeWindowListener(listener1);
 	    		//window.removeWindowListener(listener2);
 	    		//window.removeWindowListener(listener3);
