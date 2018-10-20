@@ -215,6 +215,8 @@ public class Interfejs {
 	    		Wizyty.onLeaveFocus(null, null);
 	    		Recepty.onLeaveFocus(null, null);
 	    		container.removeAllComponents();
+	    		wyszukiwarka1.setEnabled(false);
+	    		basePane.setFocusedInteractable(Pacjent);
 	    		
 	    	}
 	    }
@@ -241,42 +243,52 @@ public class Interfejs {
 		//mainpanel.addComponent(new EmptySpace());
 		TextBox TextPesel = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,11}"));
 		mainpanel.addComponent(TextPesel);
-		//mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+
 		//Imiê
 		mainpanel.addComponent(new Label("Imie"));
 		TextBox TextImie = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
 		mainpanel.addComponent(TextImie);
-		
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+
 		//Nazwisko
 		mainpanel.addComponent(new Label("Nazwisko"));
 		TextBox TextNazwisko = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
 		mainpanel.addComponent(TextNazwisko);
-		
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
 		//Wiek
 		mainpanel.addComponent(new Label("Wiek"));
 		TextBox TextWiek = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,3}"));
 		mainpanel.addComponent(TextWiek);
-		
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
 		//Ulica
 		mainpanel.addComponent(new Label("Ulica"));
 		TextBox TextUlica = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
 		mainpanel.addComponent(TextUlica);
-		
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
 		//Numer domu
 		mainpanel.addComponent(new Label("Numer domu"));
 		TextBox TextNumerDomu = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,3}"));
 		mainpanel.addComponent(TextNumerDomu);
-		
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
 		//Numer mieszkania
 		mainpanel.addComponent(new Label("Numer mieszkania"));
 		TextBox TextNumerMieszkania = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,3}"));
 		mainpanel.addComponent(TextNumerMieszkania);
-		
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
 		//Miejscowoœæ
 		mainpanel.addComponent(new Label("Miejscowoœæ"));
 		TextBox TextMiejscowosc = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
 		mainpanel.addComponent(TextMiejscowosc);
-		
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
 		Button button = new Button("Dodaj", new Runnable() {
     		@Override
     		public void run() {
