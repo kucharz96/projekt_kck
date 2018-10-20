@@ -14,6 +14,7 @@ import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.Button.Listener;
 import com.googlecode.lanterna.gui2.ComboBox;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
@@ -55,7 +56,20 @@ public class Interfejs {
 	private Button Recepty;
 	private Terminal terminal;
 	private Screen screen;
+	private BasicWindow window;
 	private MultiWindowTextGUI gui;
+	private boolean przyciskPacjent = false;
+	private boolean przyciskSkierowania = false;
+	private boolean przyciskWizyty = false;
+	private boolean przyciskRecepty = false;
+	
+	private ButtonListener list = new ButtonListener();
+	private KeyStrokeListener listener0 = new KeyStrokeListener();
+	private KeyStrokeListener listener1 = new KeyStrokeListener();
+	private KeyStrokeListener listener2 = new KeyStrokeListener();
+	private KeyStrokeListener listener3 = new KeyStrokeListener();
+	private KeyStrokeListener listener4 = new KeyStrokeListener();
+
 	public Interfejs() throws IOException {
 		C = new Centrala();
 		this.terminal = new DefaultTerminalFactory().createTerminal();
@@ -171,21 +185,56 @@ public class Interfejs {
 		.build()
 		.showDialog(gui);
 	}
+	public class ButtonListener implements Button.Listener
+	{
+
+		@Override
+		public void onTriggered(Button button) {
+			// TODO Auto-generated method stub
+			if(button.equals(Pacjent))
+			{
+				przyciskPacjent = true;
+				//window.addWindowListener(windowListener);
+				//window.removeWindowListener(listener0);
+	    		//window.removeWindowListener(listener1);
+	    		//window.removeWindowListener(listener2);
+	    		//window.removeWindowListener(listener3);
+	    		//window.removeWindowListener(listener4);
+				System.out.println("XDD");
+			}
+			if(button.equals(Wizyty))
+			{
+				System.out.println("Heh");
+			}
+			if(button.equals(Recepty))
+			{
+				
+				
+			}
+			if(button.equals(Skierowania))
+			{
+				
+			}
+		}
+		
+	}
 	public class KeyStrokeListener implements WindowListener {
 		
-		private boolean focus1,focus2,focus3,focus4 ;
+		private boolean focus1,focus2,focus3,focus4;
 		
 		public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
-	    	if(keyStroke.getKeyType() == KeyType.F6)
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskPacjent == true)
 	    	{
 	    		///Dla F6
 	    		Dodaj_pacjenta();
+	    		/*
 	    	new MessageDialogBuilder()
 			.setTitle("Wcisniêty F6!")
 
 			.addButton(MessageDialogButton.Close)
 			.build()
 			.showDialog(gui);
+			*/
 	    	}
 	    	if(keyStroke.getKeyType() == KeyType.F7)
 	    	{
@@ -207,9 +256,9 @@ public class Interfejs {
 			.build()
 			.showDialog(gui);
 	    	}
-	    	if(basePane.getFocusedInteractable() == wyszukiwarka1 && keyStroke.getKeyType() == KeyType.ArrowUp ) {
+	    	if(basePane.getFocusedInteractable() == wyszukiwarka1 && (keyStroke.getKeyType() == KeyType.ArrowUp || keyStroke.getKeyType() == KeyType.Escape) ) {
 	    		
-
+	    		przyciskPacjent = false;
 	    		Pacjent.onLeaveFocus(null, null);
 	    		Skierowania.onLeaveFocus(null, null);
 	    		Wizyty.onLeaveFocus(null, null);
@@ -217,7 +266,11 @@ public class Interfejs {
 	    		container.removeAllComponents();
 	    		wyszukiwarka1.setEnabled(false);
 	    		basePane.setFocusedInteractable(Pacjent);
-	    		
+	    		//window.removeWindowListener(listener0);
+	    		//window.removeWindowListener(listener1);
+	    		//window.removeWindowListener(listener2);
+	    		//window.removeWindowListener(listener3);
+	    		//window.removeWindowListener(listener4);
 	    	}
 	    }
 
@@ -236,7 +289,10 @@ public class Interfejs {
 	}
 	public void Dodaj_pacjenta()
 	{
-		BasicWindow window = new BasicWindow("Dodaj pacjenta");
+		window = new BasicWindow("Dodaj pacjenta");
+		//window.addWindowListener(listener);
+		//window1.addWindowListener(listener1);
+		window.setCloseWindowWithEscape(true);
 		Panel mainpanel = new Panel(new GridLayout(2));
 		//Do PESELU
 		mainpanel.addComponent(new Label("Numer PESEL"));
@@ -314,11 +370,13 @@ public class Interfejs {
 						.showDialog(gui);
 					}
 				}
+				
     		}
     	});
         Button button1 = new Button("Zamknij", new Runnable() {
     		@Override
     		public void run() {
+    	       
     			window.close();
     		}
     	});
@@ -328,20 +386,24 @@ public class Interfejs {
 		// Create window to hold the panel
     	window.setHints(Arrays.asList(Window.Hint.CENTERED));
         window.setComponent(mainpanel);
-        
+        //window1.removeWindowListener(listener1);
+        //window1.removeWindowListener(listener);
         // Create gui and start gui
         gui.addWindowAndWait(window);
 		
 	}
 	public void Okno_glowne() throws IOException
 	{
-		BasicWindow window = new BasicWindow();
+		window = new BasicWindow();
 		Panel mainPanel = new Panel();
+		
+		
+		//window.removeWindowListener(listener0);
 		final WindowBasedTextGUI textGUI = new MultiWindowTextGUI(screen);
 		//KeyStroke keyStroke = terminal.pollInput();
-        KeyStrokeListener listener = new KeyStrokeListener();
+        
         //keyStroke = terminal.pollInput();
-        window.addWindowListener(listener);
+        
 		//System.out.println("keyPressed: " + keyStroke.getKeyType());
 		window.setHints(Arrays.asList(Window.Hint.NO_DECORATIONS));
 		StringBuilder abc = new StringBuilder();
@@ -364,9 +426,14 @@ public class Interfejs {
 		
 		Pacjent = new Button("Pacjenci", new Runnable() {
 		
-
+			
 			@Override
 			public void run() {
+				window.addWindowListener(listener0);
+				//window.addWindowListener(listener1);
+				//window.removeWindowListener(listener2);
+				//window.removeWindowListener(listener3);
+				//window.removeWindowListener(listener4);
 				table = new Table<String>("Pesel","Imie","Nazwisko","Wiek", "Ulica", "Numer domu", "Numer mieszkania", "Miejscowoœæ");
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
@@ -380,18 +447,25 @@ public class Interfejs {
 				if(!container.containsComponent(table))
 				{
 					System.out.println("True");
+					
 					container.removeAllComponents();
 					container.addComponent(new EmptySpace());
 					container.addComponent(table);
 				}
 				
 				
-			
 			}});
+		Pacjent.addListener(list);
 		Wizyty = new Button("Wizyty", new Runnable() {
 
 			@Override
 			public void run() {
+				window.addWindowListener(listener0);
+				//window.removeWindowListener(listener1);
+				//window.addWindowListener(listener2);
+				//window.removeWindowListener(listener3);
+				//window.removeWindowListener(listener4);
+				//window.addWindowListener(listener);
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
 				
@@ -412,10 +486,17 @@ public class Interfejs {
 					container.addComponent(table);
 				}
 			}});
+		Wizyty.addListener(list);
 		Skierowania = new Button("Skierowania",new Runnable() {
 
 			
 			public void run() {
+				window.addWindowListener(listener0);
+				//window.removeWindowListener(listener1);
+				//window.removeWindowListener(listener2);
+				//window.addWindowListener(listener3);
+				//window.removeWindowListener(listener4);
+				//window.addWindowListener(listener);
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
 				
@@ -436,10 +517,17 @@ public class Interfejs {
 					container.addComponent(table);
 				}	
 			}});
+		Skierowania.addListener(list);
 		Recepty = new Button("Recepty", new Runnable() {
 
 			@Override
 			public void run() {
+				//window.addWindowListener(listener0);
+				//window.removeWindowListener(listener1);
+				//window.removeWindowListener(listener2);
+				//window.removeWindowListener(listener3);
+				//window.addWindowListener(listener4);
+				//window.addWindowListener(listener);
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
 				
@@ -460,14 +548,7 @@ public class Interfejs {
 					container.addComponent(table);
 				}	
 			}});
-
-	
-		
-		
-	
-		
-		
-		
+		Recepty.addListener(list);
 
 		menu.addComponent(Pacjent);
 		menu.addComponent(Wizyty);
@@ -500,13 +581,11 @@ public class Interfejs {
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3,0)));
 		base1Panel1.addComponent(new Label("F8: Edytuj"));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3,0)));
-		window.setComponent(mainPanel);
+		//window.setComponent(mainPanel);
 		window.setHints(Arrays.asList(Window.Hint.FIT_TERMINAL_WINDOW, Window.Hint.NO_DECORATIONS));
 		window.setComponent(mainPanel);
 		terminal.flush();
         gui.addWindowAndWait(window);
-
-
 		
 	}
 	public void Okno_pacjenta() {
