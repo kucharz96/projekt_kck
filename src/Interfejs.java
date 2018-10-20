@@ -13,10 +13,12 @@ import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.ComboBox;
+import com.googlecode.lanterna.gui2.Container;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.InputFilter;
+import com.googlecode.lanterna.gui2.Interactable.FocusChangeDirection;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
@@ -39,8 +41,14 @@ import com.googlecode.lanterna.terminal.MouseCaptureMode;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.TerminalResizeListener;
 
+import javafx.scene.shape.Sphere;
+
 public class Interfejs {
 	private Centrala C;
+	private Button Pacjent;
+	private Button Skierowania;
+	private Button Wizyty;
+	private Button Recepty;
 	private Terminal terminal;
 	private Screen screen;
 	private MultiWindowTextGUI gui;
@@ -165,7 +173,8 @@ public class Interfejs {
 		.showDialog(gui);
 	}
 	public class KeyStrokeListener implements WindowListener {
-	    public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
+	    private boolean focus;
+		public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
 	    	if(keyStroke.getKeyType() == KeyType.F6)
 	    	{
 	    		///Dla F6
@@ -196,6 +205,9 @@ public class Interfejs {
 			.build()
 			.showDialog(gui);
 	    	}
+	    	if(keyStroke.getKeyType() == KeyType.ArrowDown && focus == true)
+	    		Pacjent.onEnterFocus(null, null);
+	    	
 	    }
 
 	    public void onUnhandledInput(Window basePane, KeyStroke keyStroke, AtomicBoolean hasBeenHandled) {
@@ -206,8 +218,13 @@ public class Interfejs {
 	        // TODO Auto-generated method stub
 	    }
 
-	    public void onMoved(Window window, TerminalPosition oldPosition, TerminalPosition newPosition) {
-	        // TODO Auto-generated method stub
+		public void onMoved(Window window, TerminalPosition oldPosition, TerminalPosition newPosition) {
+	    	Window win = window;
+			System.out.println(win.getCursorPosition());
+
+if(window.getCursorPosition() == new TerminalPosition(2,3))
+System.out.println("bzik");    	
+
 	    }
 	}
 	public void Okno_glowne() throws IOException
@@ -234,13 +251,41 @@ public class Interfejs {
 
 		mainPanel.addComponent(menu.withBorder(Borders.singleLine("Katalogi")));
 		ActionListBox actionListBox = new ActionListBox();
-	
 		
-		Button Pacjent = new Button("Pacjenci");
-		Button Wizyty = new Button("Wizyty");
-		Button Skierowania = new Button("Skierowania");
-		Button Recepty = new Button("Recepty");
-		Pacjent.setRenderer(null);
+		Pacjent = new Button("Pacjenci", new Runnable() {
+		
+
+			@Override
+			public void run() {
+				System.out.println(window.getCursorPosition());
+
+				//onEnterFocus(FocusChangeDirection.NEXT, Pacjent);
+			}});
+		Wizyty = new Button("Wizyty", new Runnable() {
+
+			@Override
+			public void run() {
+				
+			}});
+		Skierowania = new Button("Skierowania",new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+			}});
+		Recepty = new Button("Recepty", new Runnable() {
+
+			@Override
+			public void run() {
+				
+				
+			}});
+		TextBox wyszukiwarka = new TextBox().setPreferredSize(new TerminalSize(12,1));
+
+	
+
+		
 
 		menu.addComponent(Pacjent);
 		menu.addComponent(Wizyty);
@@ -251,13 +296,12 @@ public class Interfejs {
 		mainPanel.addComponent(info);
 		info.setLayoutManager(new GridLayout(2));
 		
-		TextBox wyszukiwarka = new TextBox().setPreferredSize(new TerminalSize(12,1));
         info.addComponent(new Label("Podaj pesel: "));
 		info.addComponent(wyszukiwarka);
 		Panel cointainer = new Panel().setPreferredSize(new TerminalSize(175,12));
 		mainPanel.addComponent(cointainer.withBorder(Borders.singleLine("Katalogi")));
 
-		Panel base1Panel = new Panel().setPreferredSize(new TerminalSize(175,3));
+		Panel base1Panel = new Panel().setPreferredSize(new TerminalSize(175,1));
 		base1Panel.setLayoutManager(new GridLayout(6));
 
 		mainPanel.addComponent(base1Panel.withBorder(Borders.singleLine("Skróty")));
