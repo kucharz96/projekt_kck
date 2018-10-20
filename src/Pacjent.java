@@ -1,14 +1,3 @@
-//KOMENATRZ assasasasa
-//pasdsiajasudas
-//Upstream, based on branch 'master' of https://github.com/ElKamilaszczy/ProjektKCK1.git
-//jeszcze jeden
-//i jeden
-
-//jeszcze jeden//
-
-//Kolejny
-//
-//saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 public class Pacjent {
 	//private int id_lekarza;
 	private String pesel;

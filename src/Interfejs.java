@@ -179,6 +179,7 @@ public class Interfejs {
 	    	if(keyStroke.getKeyType() == KeyType.F6)
 	    	{
 	    		///Dla F6
+	    		Dodaj_pacjenta();
 	    	new MessageDialogBuilder()
 			.setTitle("Wcisniêty F6!")
 
@@ -230,6 +231,95 @@ public class Interfejs {
 	    
 		
 		}		
+	}
+	public void Dodaj_pacjenta()
+	{
+		BasicWindow window = new BasicWindow("Dodaj pacjenta");
+		Panel mainpanel = new Panel(new GridLayout(2));
+		//Do PESELU
+		mainpanel.addComponent(new Label("Numer PESEL"));
+		//mainpanel.addComponent(new EmptySpace());
+		TextBox TextPesel = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,11}"));
+		mainpanel.addComponent(TextPesel);
+		//mainpanel.addComponent(new EmptySpace());
+		//Imiê
+		mainpanel.addComponent(new Label("Imie"));
+		TextBox TextImie = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
+		mainpanel.addComponent(TextImie);
+		
+		//Nazwisko
+		mainpanel.addComponent(new Label("Nazwisko"));
+		TextBox TextNazwisko = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
+		mainpanel.addComponent(TextNazwisko);
+		
+		//Wiek
+		mainpanel.addComponent(new Label("Wiek"));
+		TextBox TextWiek = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,3}"));
+		mainpanel.addComponent(TextWiek);
+		
+		//Ulica
+		mainpanel.addComponent(new Label("Ulica"));
+		TextBox TextUlica = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
+		mainpanel.addComponent(TextUlica);
+		
+		//Numer domu
+		mainpanel.addComponent(new Label("Numer domu"));
+		TextBox TextNumerDomu = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,3}"));
+		mainpanel.addComponent(TextNumerDomu);
+		
+		//Numer mieszkania
+		mainpanel.addComponent(new Label("Numer mieszkania"));
+		TextBox TextNumerMieszkania = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,3}"));
+		mainpanel.addComponent(TextNumerMieszkania);
+		
+		//Miejscowoœæ
+		mainpanel.addComponent(new Label("Miejscowoœæ"));
+		TextBox TextMiejscowosc = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
+		mainpanel.addComponent(TextMiejscowosc);
+		
+		Button button = new Button("Dodaj", new Runnable() {
+    		@Override
+    		public void run() {
+    			if(TextImie.getText().isEmpty() || TextNazwisko.getText().isEmpty() || TextWiek.getText().isEmpty() || TextUlica.getText().isEmpty()
+    					|| TextNumerDomu.getText().isEmpty() || TextNumerMieszkania.getText().isEmpty() || TextMiejscowosc.getText().isEmpty()) 
+				{
+					new MessageDialogBuilder()
+					.setTitle("Error")
+					.setText("Uzupe³nij puste pola.")
+					.addButton(MessageDialogButton.Close.valueOf("OK"))
+					.build()
+					.showDialog(gui);
+				}
+				for(Pacjent P: C.getPacjenci()) {
+					
+					if(TextPesel.getText().equals(P.getPesel()))
+					{
+						new MessageDialogBuilder()
+						.setTitle("Error")
+						.setText("Pesel ju¿ taki wystêpuje.")
+						.addButton(MessageDialogButton.Close)
+						.build()
+						.showDialog(gui);
+					}
+				}
+    		}
+    	});
+        Button button1 = new Button("Zamknij", new Runnable() {
+    		@Override
+    		public void run() {
+    			window.close();
+    		}
+    	});
+        mainpanel.addComponent(button1);
+		//mainpanel.addComponent(new EmptySpace(new TerminalSize(0,0)));
+        mainpanel.addComponent(button);
+		// Create window to hold the panel
+    	window.setHints(Arrays.asList(Window.Hint.CENTERED));
+        window.setComponent(mainpanel);
+        
+        // Create gui and start gui
+        gui.addWindowAndWait(window);
+		
 	}
 	public void Okno_glowne() throws IOException
 	{
