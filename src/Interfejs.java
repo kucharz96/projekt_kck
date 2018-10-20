@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -22,10 +23,15 @@ import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.Window;
+import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
+import com.googlecode.lanterna.gui2.WindowListener;
 import com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder;
+import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.googlecode.lanterna.gui2.table.Table;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -158,11 +164,63 @@ public class Interfejs {
 		.build()
 		.showDialog(gui);
 	}
-	public void Okno_glowne()
+	public class KeyStrokeListener implements WindowListener {
+	    public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
+	    	if(keyStroke.getKeyType() == KeyType.F6)
+	    	{
+	    		///Dla F6
+	    	new MessageDialogBuilder()
+			.setTitle("Wcisniêty F6!")
+
+			.addButton(MessageDialogButton.Close)
+			.build()
+			.showDialog(gui);
+	    	}
+	    	if(keyStroke.getKeyType() == KeyType.F7)
+	    	{
+	    		///Dla F7
+	    	new MessageDialogBuilder()
+			.setTitle("Wcisniêty F7!")
+
+			.addButton(MessageDialogButton.Close)
+			.build()
+			.showDialog(gui);
+	    	}
+	    	if(keyStroke.getKeyType() == KeyType.F8)
+	    	{
+	    		///Dla F8
+	    	new MessageDialogBuilder()
+			.setTitle("Wcisniêty F8!")
+
+			.addButton(MessageDialogButton.Close)
+			.build()
+			.showDialog(gui);
+	    	}
+	    }
+
+	    public void onUnhandledInput(Window basePane, KeyStroke keyStroke, AtomicBoolean hasBeenHandled) {
+	        // TODO Auto-generated method stub
+	    }
+
+	    public void onResized(Window window, TerminalSize oldSize, TerminalSize newSize) {
+	        // TODO Auto-generated method stub
+	    }
+
+	    public void onMoved(Window window, TerminalPosition oldPosition, TerminalPosition newPosition) {
+	        // TODO Auto-generated method stub
+	    }
+	}
+	public void Okno_glowne() throws IOException
 	{
 		BasicWindow window = new BasicWindow();
 		Panel mainPanel = new Panel();
-		window.setHints(Arrays.asList(Window.Hint.FULL_SCREEN,Window.Hint.NO_DECORATIONS,Window.Hint.FIT_TERMINAL_WINDOW));
+		final WindowBasedTextGUI textGUI = new MultiWindowTextGUI(screen);
+		//KeyStroke keyStroke = terminal.pollInput();
+        KeyStrokeListener listener = new KeyStrokeListener();
+        //keyStroke = terminal.pollInput();
+        window.addWindowListener(listener);
+		//System.out.println("keyPressed: " + keyStroke.getKeyType());
+		window.setHints(Arrays.asList(Window.Hint.NO_DECORATIONS,Window.Hint.FIT_TERMINAL_WINDOW));
 		StringBuilder abc = new StringBuilder();
 		for(int a = 0;a<200;a++)
 		abc.append(" ");
@@ -196,9 +254,49 @@ public class Interfejs {
 		TextBox wyszukiwarka = new TextBox().setPreferredSize(new TerminalSize(12,1));
         info.addComponent(new Label("Podaj pesel: "));
 		info.addComponent(wyszukiwarka);
-		Panel cointainer = new Panel().setPreferredSize(new TerminalSize(175,15));
+		Panel cointainer = new Panel().setPreferredSize(new TerminalSize(175,12));
 		mainPanel.addComponent(cointainer.withBorder(Borders.singleLine("Katalogi")));
 
+		Panel base1Panel = new Panel().setPreferredSize(new TerminalSize(175,3));
+		base1Panel.setLayoutManager(new GridLayout(6));
+
+		mainPanel.addComponent(base1Panel.withBorder(Borders.singleLine("Skróty")));
+		
+		base1Panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
+		base1Panel.addComponent(new Label("F6: Dodaj"));
+		base1Panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
+		base1Panel.addComponent(new Label("F7: Usuñ"));
+		base1Panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
+		base1Panel.addComponent(new Label("F8: Edytuj"));
+		base1Panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
+		window.setComponent(mainPanel);
+		window.setHints(Arrays.asList(Window.Hint.FIT_TERMINAL_WINDOW, Window.Hint.NO_DECORATIONS));
+		window.setComponent(mainPanel);
+		terminal.flush();
+        gui.addWindowAndWait(window);
+
+		
+        
+        
+        
+        
+
+		/*
+		if(keyStroke.getKeyType() == KeyType.F6)
+		{
+			
+			
+		}
+		if(keyStroke.getKeyType() == KeyType.F7)
+		{
+			
+			
+		}
+		*/
+		
+		
+		
+		
 
 
 
@@ -208,8 +306,7 @@ public class Interfejs {
 
 		
 		
-		window.setComponent(mainPanel);
-		gui.addWindowAndWait(window);
+
 		
 	}
 	public void Okno_pacjenta() {
