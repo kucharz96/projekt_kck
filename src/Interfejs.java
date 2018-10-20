@@ -169,8 +169,9 @@ public class Interfejs {
 		.showDialog(gui);
 	}
 	public class KeyStrokeListener implements WindowListener {
-	    private boolean focus;
-
+		
+		private boolean focus ;
+		
 		public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
 	    	if(keyStroke.getKeyType() == KeyType.F6)
 	    	{
@@ -202,9 +203,10 @@ public class Interfejs {
 			.build()
 			.showDialog(gui);
 	    	}
-	    	if(keyStroke.getKeyType() == KeyType.ArrowDown && focus == true)
+	    	if(keyStroke.getKeyType() == KeyType.ArrowDown && focus == true) {
 	    		Pacjent.onEnterFocus(null, null);
 	    	
+	    	}
 	    }
 
 	    public void onUnhandledInput(Window basePane, KeyStroke keyStroke, AtomicBoolean hasBeenHandled) {
@@ -217,12 +219,12 @@ public class Interfejs {
 
 		public void onMoved(Window window, TerminalPosition oldPosition, TerminalPosition newPosition) {
 	    	Window win = window;
-			System.out.println(win.getCursorPosition());
-
-if(window.getCursorPosition() == new TerminalPosition(2,3))
-System.out.println("bzik");    	
-
-	    }
+			if(win.getCursorPosition() == null || (win.getCursorPosition().getRow()==3 &&(win.getCursorPosition().getColumn() == 2 
+				|| win.getCursorPosition().getColumn() == 13 || win.getCursorPosition().getColumn() == 22
+				|| win.getCursorPosition().getColumn() == 36) ))
+					focus = true;
+				
+		}		
 	}
 	public void Okno_glowne() throws IOException
 	{
@@ -234,7 +236,7 @@ System.out.println("bzik");
         //keyStroke = terminal.pollInput();
         window.addWindowListener(listener);
 		//System.out.println("keyPressed: " + keyStroke.getKeyType());
-		window.setHints(Arrays.asList(Window.Hint.NO_DECORATIONS,Window.Hint.FIT_TERMINAL_WINDOW));
+		window.setHints(Arrays.asList(Window.Hint.NO_DECORATIONS));
 		StringBuilder abc = new StringBuilder();
 		for(int a = 0;a<200;a++)
 		abc.append(" ");
@@ -259,7 +261,6 @@ System.out.println("bzik");
 			public void run() {
 				System.out.println(window.getCursorPosition());
 
-				//onEnterFocus(FocusChangeDirection.NEXT, Pacjent);
 			}});
 		Wizyty = new Button("Wizyty", new Runnable() {
 
@@ -269,26 +270,24 @@ System.out.println("bzik");
 			}});
 		Skierowania = new Button("Skierowania",new Runnable() {
 
-			@Override
+			
 			public void run() {
-				// TODO Auto-generated method stub
-				
+				Recepty.onEnterFocus(null, Recepty);				
 			}});
 		Recepty = new Button("Recepty", new Runnable() {
 
 			@Override
 			public void run() {
 				
-				
 			}});
 		TextBox wyszukiwarka = new TextBox().setPreferredSize(new TerminalSize(12,1));
 
 	
-
+		
 		
 	
 		Table<String> table = new Table<String>("Pesel","Imie","Nazwisko","Wiek", "Ulica", "Numer domu", "Numer mieszkania", "Miejscowoœæ");
-		Button Pacjent = new Button("Pacjenci", new Runnable() {
+		Pacjent = new Button("Pacjenci", new Runnable() {
 			
 			@Override
 			public void run() {
@@ -308,11 +307,8 @@ System.out.println("bzik");
 				
 			}
 		});
-		Button Wizyty = new Button("Wizyty");
-		Button Skierowania = new Button("Skierowania");
-		Button Recepty = new Button("Recepty");
 		
-		Pacjent.setRenderer(null);
+		
 
 		menu.addComponent(Pacjent);
 		menu.addComponent(Wizyty);
