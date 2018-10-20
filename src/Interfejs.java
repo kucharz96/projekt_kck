@@ -1,8 +1,10 @@
+import java.awt.Container;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Pattern;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -13,7 +15,6 @@ import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Button;
 import com.googlecode.lanterna.gui2.ComboBox;
-import com.googlecode.lanterna.gui2.Container;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
@@ -62,13 +63,10 @@ public class Interfejs {
 	}
 	//////////////LOGOWANIE//////////////////////////////////
 	public void Logowanie()  throws IOException { 
-		// Setup terminal and screen layers
-        
+		// Setup terminal and screen layers    
     	BasicWindow window = new BasicWindow();
         // Create panel to hold components
         Panel mainpanel = new Panel();
-		
-
 		Panel panel_tmp = new Panel();
 		mainpanel.addComponent(panel_tmp.withBorder(Borders.singleLine("LOGOWANIE")));
 		Panel panel = new Panel();
@@ -77,9 +75,7 @@ public class Interfejs {
 		panel_tmp.addComponent(panel);
 
 		panel.setLayoutManager(new GridLayout(4));
-        
-
-        panel.addComponent(new Label("Login"));
+		panel.addComponent(new Label("Login"));
 		panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
 		TextBox login = new TextBox();
         panel.addComponent(login);
@@ -174,6 +170,7 @@ public class Interfejs {
 	}
 	public class KeyStrokeListener implements WindowListener {
 	    private boolean focus;
+
 		public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
 	    	if(keyStroke.getKeyType() == KeyType.F6)
 	    	{
@@ -248,9 +245,12 @@ System.out.println("bzik");
 
 		Panel menu = new Panel().setPreferredSize(new TerminalSize(175,1));
 		menu.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
-
+		Panel container = new Panel().setPreferredSize(new TerminalSize(175,12));
 		mainPanel.addComponent(menu.withBorder(Borders.singleLine("Katalogi")));
+		Panel info = new Panel().setPreferredSize(new TerminalSize(175,1));
+		Panel base1Panel = new Panel().setPreferredSize(new TerminalSize(175,3));
 		ActionListBox actionListBox = new ActionListBox();
+
 		
 		Pacjent = new Button("Pacjenci", new Runnable() {
 		
@@ -286,70 +286,71 @@ System.out.println("bzik");
 	
 
 		
+	
+		Table<String> table = new Table<String>("Pesel","Imie","Nazwisko","Wiek", "Ulica", "Numer domu", "Numer mieszkania", "Miejscowoœæ");
+		Button Pacjent = new Button("Pacjenci", new Runnable() {
+			
+			@Override
+			public void run() {
+				table.setVisibleRows(10);
+				for(Pacjent a : C.getPacjenci()) {
+					table.getTableModel().addRow(a.getPesel(), a.getImie(), a.getNazwisko(), Integer.toString(a.getWiek()), a.getUlica(), Integer.toString(a.getNr_domu()),
+							Integer.toString(a.getNr_mieszkania()), a.getMiejscowosc());
+				}
+				if(!container.containsComponent(table))
+				{
+					System.out.println("True");
+					container.removeAllComponents();
+					container.addComponent(new EmptySpace());
+					container.addComponent(table);
+				}
+				
+				
+			}
+		});
+		Button Wizyty = new Button("Wizyty");
+		Button Skierowania = new Button("Skierowania");
+		Button Recepty = new Button("Recepty");
+		
+		Pacjent.setRenderer(null);
 
 		menu.addComponent(Pacjent);
 		menu.addComponent(Wizyty);
 		menu.addComponent(Skierowania);
 		menu.addComponent(Recepty);
 		
-		Panel info = new Panel().setPreferredSize(new TerminalSize(175,1));
+
 		mainPanel.addComponent(info);
 		info.setLayoutManager(new GridLayout(2));
-		
+
+		TextBox wyszukiwarka1 = new TextBox().setPreferredSize(new TerminalSize(12,1)).setValidationPattern(Pattern.compile("([0-9]){0,11}"));
         info.addComponent(new Label("Podaj pesel: "));
-		info.addComponent(wyszukiwarka);
-		Panel cointainer = new Panel().setPreferredSize(new TerminalSize(175,12));
-		mainPanel.addComponent(cointainer.withBorder(Borders.singleLine("Katalogi")));
+		info.addComponent(wyszukiwarka1);
 
-		Panel base1Panel = new Panel().setPreferredSize(new TerminalSize(175,1));
-		base1Panel.setLayoutManager(new GridLayout(6));
+		Panel base1Panel1 = new Panel().setPreferredSize(new TerminalSize(175,1));
 
-		mainPanel.addComponent(base1Panel.withBorder(Borders.singleLine("Skróty")));
 		
-		base1Panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
-		base1Panel.addComponent(new Label("F6: Dodaj"));
-		base1Panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
-		base1Panel.addComponent(new Label("F7: Usuñ"));
-		base1Panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
-		base1Panel.addComponent(new Label("F8: Edytuj"));
-		base1Panel.addComponent(new EmptySpace(new TerminalSize(3,0)));
+		
+		mainPanel.addComponent(container.withBorder(Borders.singleLine("Informacje")));
+		
+
+		base1Panel1.setLayoutManager(new GridLayout(6));
+
+		mainPanel.addComponent(base1Panel1.withBorder(Borders.singleLine("Skróty")));
+		
+		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3,0)));
+		base1Panel1.addComponent(new Label("F6: Dodaj"));
+		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3,0)));
+		base1Panel1.addComponent(new Label("F7: Usuñ"));
+		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3,0)));
+		base1Panel1.addComponent(new Label("F8: Edytuj"));
+		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3,0)));
 		window.setComponent(mainPanel);
 		window.setHints(Arrays.asList(Window.Hint.FIT_TERMINAL_WINDOW, Window.Hint.NO_DECORATIONS));
 		window.setComponent(mainPanel);
 		terminal.flush();
         gui.addWindowAndWait(window);
 
-		
-        
-        
-        
-        
-
-		/*
-		if(keyStroke.getKeyType() == KeyType.F6)
-		{
-			
-			
-		}
-		if(keyStroke.getKeyType() == KeyType.F7)
-		{
-			
-			
-		}
-		*/
-		
-		
-		
-		
-
-
-
-        
-
-
-
-		
-		
 
 		
 	}
