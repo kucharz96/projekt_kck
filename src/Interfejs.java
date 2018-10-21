@@ -374,7 +374,7 @@ public class Interfejs {
 	    		container.removeAllComponents();
 	    		wyszukiwarka1.setEnabled(false);
 	    		basePane.setFocusedInteractable(Pacjent);
-	    		window.removeWindowListener(listener0);
+	    		//window.removeWindowListener(listener0);
 	    		//window.removeWindowListener(listener1);
 	    		//window.removeWindowListener(listener2);
 	    		//window.removeWindowListener(listener3);
@@ -577,28 +577,13 @@ public class Interfejs {
 
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
+				check = 1;
 
-				Pacjent.onEnterFocus(null, null);	
-				table.setVisibleColumns(30);
-				table.setVisibleRows(10);
-				for(Pacjent a : C.getPacjenci()) {
-					table.getTableModel().addRow(a.getPesel(), a.getImie(), a.getNazwisko(), Integer.toString(a.getWiek()), a.getUlica(), Integer.toString(a.getNr_domu()),
-							Integer.toString(a.getNr_mieszkania()), a.getMiejscowosc());
-				}
-				if(!container.containsComponent(table))
-				{
-					System.out.println("True");
-					
-					container.removeAllComponents();
-					container.addComponent(new EmptySpace());
-					container.addComponent(table);
-				}
 				
 				
 			}});
 		Pacjent.addListener(list);
 
-				check = 1;
 
 			
 		Wizyty = new Button("Wizyty", new Runnable() {
@@ -615,19 +600,6 @@ public class Interfejs {
 				window.setFocusedInteractable(wyszukiwarka1);
 				check = 2;
 
-				table.setVisibleColumns(175);
-				table.setVisibleRows(10);
-				for(Wizyta a : C.getWizyty()) {
-					table.getTableModel().addRow(a.getPesel_pacjenta(),C.getLekarze().get(a.getId_lekarza()).getImie() ,
-							C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(),a.getOpis());
-				}
-				if(!container.containsComponent(table))
-				{
-					System.out.println("True");
-					container.removeAllComponents();
-					container.addComponent(new EmptySpace());
-					container.addComponent(table);
-				}
 			}});
 		Wizyty.addListener(list);
 		Skierowania = new Button("Skierowania", new Runnable() {
@@ -642,19 +614,7 @@ public class Interfejs {
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
 				check = 3;
-				table.setVisibleColumns(7);
-				table.setVisibleRows(10);
-				for(Skierowanie a : C.getSkierowania()) {
-					table.getTableModel().addRow(a.getPesel_pacjenta(),C.getLekarze().get(a.getId_lekarza()).getImie() ,
-							C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(),a.getOpis(),a.getCel());
-				}
-				if(!container.containsComponent(table))
-				{
-					System.out.println("True");
-					container.removeAllComponents();
-					container.addComponent(new EmptySpace());
-					container.addComponent(table);
-				}	
+				
 			}});
 		Skierowania.addListener(list);
 
@@ -673,22 +633,7 @@ public class Interfejs {
 				window.setFocusedInteractable(wyszukiwarka1);
 				check = 4;
 				
-				Recepty.onEnterFocus(null, null);
-				table = new Table<String>("Pesel","Imie lekarza","Nazwisko lekarza","Data", "Opis");
 				
-				table.setVisibleColumns(7);
-				table.setVisibleRows(10);
-				for(Recepta a : C.getRecepty()) {
-					table.getTableModel().addRow(a.getPesel_pacjenta(),C.getLekarze().get(a.getId_lekarza()).getImie() ,
-							C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(),a.getOpis());
-				}
-				if(!container.containsComponent(table))
-				{
-					System.out.println("True");
-					container.removeAllComponents();
-					container.addComponent(new EmptySpace());
-					container.addComponent(table);
-				}	
 			}});
 		Recepty.addListener(list);
 			
