@@ -218,7 +218,7 @@ public class Interfejs {
 		
 		Pacjent.onEnterFocus(null, null);
 		table.setVisibleColumns(30);
-		table.setVisibleRows(10);
+		table.setVisibleRows(11);
 		int j = 0 ;
 	for (Pacjent a : C.getPacjenci()) {
 			if(a.getPesel().startsWith(filtr)) {
@@ -385,25 +385,68 @@ public class Interfejs {
 			}
 	    	///////////////////////////////////////////////////////////////////////////ZROBIÄ† USUWANIE////////////////////////////////////////////////////////////////////////
 	    	//Usuwanie informacji po enterze//
-			if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == true) {
+			if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getPacjenci().size()) {
 				
-				System.out.println("aaaabb");
-				new MessageDialogBuilder().setTitle("Wybranio usuwanie pacjentow.")
-				.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+
+				BasicWindow window = new BasicWindow();
+				// Create panel to hold components
+				Panel mainpanel = new Panel();
+				Panel panel_tmp = new Panel();
+				mainpanel.addComponent(panel_tmp.withBorder(Borders.singleLine()));
+				Panel panel = new Panel();
+				
+
+				panel_tmp.addComponent(panel);
+
+				panel.setLayoutManager(new GridLayout(2));
+				panel.addComponent(new Label("Czy na pewno chcesz usun¹æ rekord?"));
+				panel.addComponent(new Label(""));
+
+				panel.addComponent(new EmptySpace());
+				panel.addComponent(new EmptySpace());
+				Button button = new Button("Tak", new Runnable() {
+					@Override
+					public void run() {
+						if(table.getTableModel().getRowCount() == 1) {
+							container.removeAllComponents();
+							wyszukiwarka1.setEnabled(true);}
+								
+							
+							new MessageDialogBuilder().setTitle("WcisniÃªty F7!")
+							.addButton(MessageDialogButton.Close).build().showDialog(gui);
+							   table.getTableModel().removeRow(table.getSelectedRow());
+
+						   C.removePacjent(table.getSelectedRow());
+						   window.close();
+					}
+				});
+				Button button1 = new Button("Nie", new Runnable() {
+					@Override
+					public void run() {
+					window.close();
+					}
+				});
+				panel.addComponent(button);
+				panel.addComponent(button1);
+
+				// Create window to hold the panel
+				window.setHints(Arrays.asList(Window.Hint.CENTERED));
+				// window.setSize(new TerminalSize(50, 10));
+				window.setComponent(mainpanel);
+
+				// Create gui and start gui
+				gui.addWindowAndWait(window);
+
 				
 				
-				/*	
+					
 					//C.removePacjent(table.getSelectedRow()+1);
-					table.setSelectAction(new Runnable() {
-						@Override
-						public void run() {
-							//List<String> data = table.getTableModel().getRow(table.getSelectedRow());
-							System.out.println(table.getTableModel().getRowCount()-1);
-							   table.getTableModel().removeRow(table.getSelectedRow()-1);
-							   C.removePacjent(table.getSelectedRow());*
-							}
+					
 						
-					});
+							//List<String> data = table.getTableModel().getRow(table.getSelectedRow());
+							
+						
+							   
 					//table.getTableModel().removeRow(table.getSelectedRow());
 					
 				/*
