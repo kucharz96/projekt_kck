@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 //siemka
 //costam
@@ -7,7 +8,7 @@ import java.util.List;
 public class Centrala {
 	
 	private List<Lekarz> lekarze = new ArrayList<Lekarz>();
-	private List<Pacjent> pacjenci = new ArrayList<Pacjent>();
+	private List<Pacjent> pacjenci = new LinkedList<Pacjent>();
 	private List<Recepta> recepty = new ArrayList<Recepta>();
 	private List<Skierowanie> skierowania = new ArrayList<Skierowanie>();
 	private List<Wizyta> wizyty = new ArrayList<Wizyta>();
@@ -15,6 +16,8 @@ public class Centrala {
 		
 		addPacjent(new Pacjent("96123983764", "Janusz", "Tracz", 12, "Ro¿ana", 6, 16,
 				"Bia³ystok"));
+		addPacjent(new Pacjent("96123983712", "Rafon", "Tracz", 12, "Rafonowo", 6, 16,
+				"Lodz"));
 		addPacjent(new Pacjent("96123983345", "Jan", "Tra", 11, "Ro¿any", 9, 9,
 				"Warszawa"));
 		addPacjent(new Pacjent("96123934567", "Marek", "Rafa³", 1, "Bia³a", 2, 3,
@@ -48,6 +51,7 @@ public class Centrala {
 		addLekarz(new Lekarz("jankomuzykant", "12346", "Kamil", "Kowalski", 30, 110, "111111112"));
 		
 		addLekarz(new Lekarz("cos96", "ser123", "Magda", "Nowakowska", 45, 200, "211111111"));
+		addLekarz(new Lekarz("coswddasd", "ser123", "Eliza", "Nowakowska", 45, 200, "211111111"));
 
 		addWizyta(new Wizyta(0, "96123934567", "chorysssssssssssss", "12-10-2005 12:00"));
 		addWizyta(new Wizyta(1, "96123983764", "chory", "12-10-2010 12:20"));
