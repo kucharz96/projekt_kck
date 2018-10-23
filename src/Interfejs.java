@@ -52,6 +52,7 @@ public class Interfejs {
 	private int check;
 	private Panel container;
 	//private Panel mainPanel;
+	static private boolean spr = true;
 	private Table<String> table;
 	private Centrala C;
 	private TextBox wyszukiwarka1;
@@ -354,31 +355,44 @@ public class Interfejs {
 
 
 		public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
+			if(spr == false) {
+				spr = true;
+				return;
+				
+				
+			}
+				
 			
 			//Dla dodawania informacji//
-	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskPacjent == true)
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskPacjent == true && spr == true)
 	    	{
 	    		Dodaj_pacjenta();
+	    		
 	    	}
-	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskRecepty == true)
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskRecepty == true && spr == true)
 	    	{
 					Dodaj_recepte();		
 			}
-	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskSkierowania == true)
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskSkierowania == true && spr == true)
 	    	{
 	    		Dodaj_skierowanie();
 			
 			}
-	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskWizyty == true)
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskWizyty == true && spr == true)
 	    	{
 	    		Dodaj_wizyte();
 			
 			}
 	    	///////////////////////////////////////////////////////////////////////////ZROBIĆ USUWANIE////////////////////////////////////////////////////////////////////////
 	    	//Usuwanie informacji po enterze//
-			if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true) {
+			if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == true) {
+				
+				System.out.println("aaaabb");
 				new MessageDialogBuilder().setTitle("Wybranio usuwanie pacjentow.")
 				.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+				
+				
+				/*	
 					//C.removePacjent(table.getSelectedRow()+1);
 					table.setSelectAction(new Runnable() {
 						@Override
@@ -386,7 +400,7 @@ public class Interfejs {
 							//List<String> data = table.getTableModel().getRow(table.getSelectedRow());
 							System.out.println(table.getTableModel().getRowCount()-1);
 							   table.getTableModel().removeRow(table.getSelectedRow()-1);
-							   C.removePacjent(table.getSelectedRow());
+							   C.removePacjent(table.getSelectedRow());*
 							}
 						
 					});
@@ -396,6 +410,7 @@ public class Interfejs {
 				new MessageDialogBuilder().setTitle("Wcisniêty F7!")
 						.addButton(MessageDialogButton.Close).build().showDialog(gui);
 						*/
+			
 			}
 			if (keyStroke.getKeyType() == KeyType.F8) {
 				/// Dla F8
@@ -404,7 +419,8 @@ public class Interfejs {
 			.addButton(MessageDialogButton.Close)
 			.build()
 			.showDialog(gui);
-	    	}
+			
+			}
 			
 	    	if(basePane.getFocusedInteractable() == wyszukiwarka1 && ( keyStroke.getKeyType() == KeyType.ArrowUp) ) {
 	    		System.out.println("XD");
@@ -427,8 +443,8 @@ public class Interfejs {
 	    		//window.removeWindowListener(listener4);
 	    	}
 	    
-
-			
+	    	spr = false;
+	    	
 		}
 
 		public void onUnhandledInput(Window basePane, KeyStroke keyStroke, AtomicBoolean hasBeenHandled) {
@@ -467,13 +483,6 @@ public class Interfejs {
 				
 			
 			}
-			/*
-			if(check == 5 && window.getComponent() == container)
-			{
-				container.removeAllComponents();
-				wyswietl_recepty1();
-			}
-			*/
 				
 		}
 	}
