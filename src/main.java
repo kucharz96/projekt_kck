@@ -7,12 +7,10 @@ import java.util.regex.Pattern;
 public class main {
     public static void main(String[] args) {
     
-    	//xckcxxzlkclx
-    //to nowe
     try {
     	Interfejs Inter = new Interfejs();
-    	//Inter.Logowanie();
-    	Inter.Okno_glowne();
+    	Inter.Logowanie();
+    	//Inter.Okno_glowne();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

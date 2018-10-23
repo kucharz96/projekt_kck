@@ -39,8 +39,10 @@ import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.googlecode.lanterna.gui2.table.Table;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.screen.AbstractScreen;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
+import com.googlecode.lanterna.screen.VirtualScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.MouseCaptureMode;
 import com.googlecode.lanterna.terminal.Terminal;
@@ -83,6 +85,8 @@ public class Interfejs {
 		C = new Centrala();
 		this.terminal = new DefaultTerminalFactory().createTerminal();
 		this.screen = new TerminalScreen(terminal);
+
+		//System.out.println(((Container) screen).getMinimumSize());
 		gui = new MultiWindowTextGUI(screen);
 		screen.startScreen();
 
@@ -163,12 +167,19 @@ public class Interfejs {
 		gui = new MultiWindowTextGUI(screen);
 
 		new ActionListDialogBuilder().setTitle("Menu rejestracji").setDescription("Wybierz opcje")
-				.addAction("Zarz¹dzanie pacjentami", new Runnable() {
+				.addAction("Zarządzanie pacjentami", new Runnable() {
 					@Override
 					public void run() {
-						// Do 1st thing...
+						try {
+							screen.clear();
+							gui.updateScreen();
+							Okno_glowne();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
-				}).addAction("Zarz¹dzanie lekarzami", new Runnable() {
+				}).addAction("Zarzadzanie lekarzami", new Runnable() {
 					@Override
 					public void run() {
 						// Do 2nd thing...
@@ -176,12 +187,22 @@ public class Interfejs {
 				}).addAction("Wyloguj", new Runnable() {
 					@Override
 					public void run() {
-						// Do 3rd thing...
+						try {
+							Logowanie();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}).addAction("Zamknij", new Runnable() {
 					@Override
 					public void run() {
-						// Do 3rd thing...
+						try {
+							terminal.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}).build().showDialog(gui);
 	}
@@ -361,6 +382,66 @@ public class Interfejs {
 				return;
 			}
 			//Dla dodawania informacji//
+			if(keyStroke.getKeyType() == KeyType.F11)
+			{
+				BasicWindow window = new BasicWindow();
+				// Create panel to hold components
+				Panel mainpanel = new Panel();
+				Panel panel_tmp = new Panel();
+				mainpanel.addComponent(panel_tmp.withBorder(Borders.singleLine("Co zrobić?")));
+				Panel panel = new Panel();
+				panel_tmp.addComponent(new EmptySpace(new TerminalSize(1, 1)));
+
+				panel_tmp.addComponent(panel);
+
+				panel.setLayoutManager(new GridLayout(5));
+
+				Button button = new Button("Wyloguj", new Runnable() {
+					@Override
+					public void run() {
+						try {
+							
+								Menu_rejestracja();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				Button button1 = new Button("NARA", new Runnable() {
+					@Override
+					public void run() {
+						try {
+							terminal.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				Button button2 = new Button("NIC", new Runnable() {
+					@Override
+					public void run() {
+						window.close();
+					}
+				});
+				//panel.addComponent(new EmptySpace(new TerminalSize(0, 0)));
+				panel.addComponent(button);
+				panel.addComponent(new EmptySpace(new TerminalSize(0, 0)));
+
+				panel.addComponent(button1);
+				panel.addComponent(new EmptySpace(new TerminalSize(0, 0)));
+				panel.addComponent(button2);
+				panel.addComponent(new EmptySpace(new TerminalSize(0, 0)));
+				
+				// Create window to hold the panel
+				window.setHints(Arrays.asList(Window.Hint.CENTERED));
+				// window.setSize(new TerminalSize(50, 10));
+				window.setComponent(mainpanel);
+
+				// Create gui and start gui
+				gui.addWindowAndWait(window);
+			}
 	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskPacjent == true && spr == true)
 	    	{
 	    		Dodaj_pacjenta();
@@ -383,7 +464,6 @@ public class Interfejs {
 	    	//Usuwanie informacji po enterze//
 			if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getPacjenci().size()) {
 				
-
 				BasicWindow window = new BasicWindow();
 				// Create panel to hold components
 				Panel mainpanel = new Panel();
@@ -489,6 +569,7 @@ public class Interfejs {
 				TextNazwisko.setText(data.get(2)).setCaretPosition(data.get(2).length());
 				mainpanel.addComponent(new EmptySpace());
 				mainpanel.addComponent(new EmptySpace());
+				
 				// Wiek
 				mainpanel.addComponent(new Label("Wiek"));
 				TextBox TextWiek = new TextBox().setPreferredSize(new TerminalSize(12, 1))
@@ -521,7 +602,7 @@ public class Interfejs {
 				TextNumerMieszkania.setText(data.get(6)).setCaretPosition(data.get(6).length());
 				mainpanel.addComponent(new EmptySpace());
 				mainpanel.addComponent(new EmptySpace());
-				// Miejscowoœæ
+				// Miejscowość
 				mainpanel.addComponent(new Label("Miejscowość"));
 				TextBox TextMiejscowosc = new TextBox().setPreferredSize(new TerminalSize(12, 1))
 						.setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
@@ -532,20 +613,33 @@ public class Interfejs {
 				Button button = new Button("Dodaj", new Runnable() {
 					@Override
 					public void run() {
-						if (TextImie.getText().isEmpty() || TextNazwisko.getText().isEmpty() || TextWiek.getText().isEmpty()
+						if (TextPesel.getText().isEmpty() ||TextImie.getText().isEmpty() || TextNazwisko.getText().isEmpty() || TextWiek.getText().isEmpty()
 								|| TextUlica.getText().isEmpty() || TextNumerDomu.getText().isEmpty()
 								|| TextNumerMieszkania.getText().isEmpty() || TextMiejscowosc.getText().isEmpty()) {
 							new MessageDialogBuilder().setTitle("Error").setText("Uzupełnij puste pola.")
 									.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
 						}
-						for (Pacjent P : C.getPacjenci()) {
+						Pacjent P =	C.getPacjenci().get(table.getSelectedRow());
+						for (Pacjent P1 : C.getPacjenci()) {
 
-							if (TextPesel.getText().equals(P.getPesel())) {
+							if (P1.getPesel().equals(TextPesel.getText()) && (P.getPesel() != P1.getPesel())) {
 								new MessageDialogBuilder().setTitle("Error").setText("Pesel już taki występuje.")
-										.addButton(MessageDialogButton.Close).build().showDialog(gui);
+										.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+							}
+							else
+							{
+								P.setPesel(TextPesel.getText());
+								P.setImie(TextImie.getText());
+								P.setNazwisko(TextNazwisko.getText());
+								P.setWiek(Integer.parseInt(TextWiek.getText()));
+								P.setMiejscowosc(TextMiejscowosc.getText());
+								P.setNr_domu(Integer.parseInt(TextNumerDomu.getText()));
+								P.setNr_mieszkania(Integer.parseInt(TextNumerMieszkania.getText()));
+								P.setUlica(TextUlica.getText());
+								return;
 							}
 							
-						}	
+						  }
 		    		}
 		    	});
 		        Button button1 = new Button("Zamknij", new Runnable() {
@@ -556,9 +650,7 @@ public class Interfejs {
 		    		}
 		    	});
 		        mainpanel.addComponent(button1);
-				//mainpanel.addComponent(new EmptySpace(new TerminalSize(0,0)));
 		        mainpanel.addComponent(button);
-
 		    	window.setHints(Arrays.asList(Window.Hint.CENTERED));
 		        window.setComponent(mainpanel);
 		        window.setCloseWindowWithEscape(true);
@@ -1346,7 +1438,7 @@ public class Interfejs {
 
 		mainPanel.addComponent(container.withBorder(Borders.singleLine("Informacje")));
 
-		base1Panel1.setLayoutManager(new GridLayout(6));
+		base1Panel1.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
 
 		mainPanel.addComponent(base1Panel1.withBorder(Borders.singleLine("Skróty")));
 
@@ -1356,14 +1448,16 @@ public class Interfejs {
 		base1Panel1.addComponent(new Label("F7: Usuñ"));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F8: Edytuj"));
+		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
+		base1Panel1.addComponent(new Label("F11: Wyloguj"));
 
-		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3,0)));
+		//base1Panel1.addComponent(new EmptySpace(new TerminalSize(3,0)));
 		//window.setComponent(mainPanel);
 
-		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
-		window.setComponent(mainPanel);
+		//base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
+		//window.setComponent(mainPanel);
 
-		window.setHints(Arrays.asList(Window.Hint.FIT_TERMINAL_WINDOW, Window.Hint.NO_DECORATIONS));
+		window.setHints(Arrays.asList(Window.Hint.FIT_TERMINAL_WINDOW, Window.Hint.EXPANDED));
 		window.setComponent(mainPanel);
 		terminal.flush();
 

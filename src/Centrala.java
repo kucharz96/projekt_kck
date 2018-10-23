@@ -14,38 +14,14 @@ public class Centrala {
 	private List<Wizyta> wizyty = new ArrayList<Wizyta>();
 	public Centrala() {
 		
-		addPacjent(new Pacjent("96123983764", "Janusz", "Tracz", 12, "Ro¿ana", 6, 16,
-				"Bia³ystok"));
+	
 		addPacjent(new Pacjent("96123983712", "Rafon", "Tracz", 12, "Rafonowo", 6, 16,
 				"Lodz"));
-		addPacjent(new Pacjent("96123983345", "Jan", "Tra", 11, "Ro¿any", 9, 9,
-				"Warszawa"));
-		addPacjent(new Pacjent("96123934567", "Marek", "Rafa³", 1, "Bia³a", 2, 3,
-				"Poznañ"));
-		addPacjent(new Pacjent("96123983764", "Janusz", "Tracz", 12, "Ro¿ana", 6, 16,
-				"Bia³ystok"));
-		addPacjent(new Pacjent("96123983345", "Jan", "Tra", 11, "Ro¿any", 9, 9,
-				"Warszawa"));
-		addPacjent(new Pacjent("96123934567", "Marek", "Rafa³", 1, "Bia³a", 2, 3,
-				"Poznañ"));
-		addPacjent(new Pacjent("96123983764", "Janusz", "Tracz", 12, "Ro¿ana", 6, 16,
-				"Bia³ystok"));
-		addPacjent(new Pacjent("96123983345", "Jan", "Tra", 11, "Ro¿any", 9, 9,
-				"Warszawa"));
-		addPacjent(new Pacjent("96123934567", "Marek", "Rafa³", 1, "Bia³a", 2, 3,
-				"Poznañ"));
-		addPacjent(new Pacjent("96123983764", "Janusz", "Tracz", 12, "Ro¿ana", 6, 16,
-				"Bia³ystok"));
-		addPacjent(new Pacjent("96123983345", "Jan", "Tra", 11, "Ro¿any", 9, 9,
-				"Warszawa"));
-		addPacjent(new Pacjent("96123934567", "Marek", "Rafa³", 1, "Bia³a", 2, 3,
-				"Poznañ"));
-		addPacjent(new Pacjent("96123983764", "Janusz", "Tracz", 12, "Ro¿ana", 6, 16,
-				"Bia³ystok"));
-		addPacjent(new Pacjent("96123983345", "Jan", "Tra", 11, "Ro¿any", 9, 9,
-				"Warszawa"));
-		addPacjent(new Pacjent("96123934567", "Marek", "Rafa³", 1, "Bia³a", 2, 3,
-				"Poznañ"));
+		addPacjent(new Pacjent("96123983711", "Rafon", "Tracz", 12, "Rafonowo", 6, 16,
+				"Lodz"));
+		addPacjent(new Pacjent("96123983713", "Rafon", "Tracz", 12, "Rafonowo", 6, 16,
+				"Lodz"));
+		
        addLekarz(new Lekarz("kucharz96", "1234", "Jan", "Wacek", 35, 100, "111111111"));
 		
 		addLekarz(new Lekarz("jankomuzykant", "12346", "Kamil", "Kowalski", 30, 110, "111111112"));
