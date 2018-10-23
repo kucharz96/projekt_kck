@@ -1,7 +1,10 @@
 import java.awt.Container;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
@@ -48,6 +51,7 @@ import javafx.scene.shape.Sphere;
 public class Interfejs {
 	private int check;
 	private Panel container;
+	//private Panel mainPanel;
 	private Table<String> table;
 	private Centrala C;
 	private TextBox wyszukiwarka1;
@@ -104,7 +108,7 @@ public class Interfejs {
 		panel.addComponent(new EmptySpace(new TerminalSize(0, 2)));
 		TextBox haslo = new TextBox().setMask('*');
 
-		panel.addComponent(new Label("Has³o"));
+		panel.addComponent(new Label("HasÂ³o"));
 		panel.addComponent(new EmptySpace(new TerminalSize(0, 0)));
 
 		panel.addComponent(haslo);
@@ -115,7 +119,7 @@ public class Interfejs {
 			public void run() {
 				try {
 					if (C.Logowanie(login.getText(), haslo.getText()).equals("")) {
-						new MessageDialogBuilder().setTitle("B³¹d logowania").setText("Nieprawid³owe has³o lub login")
+						new MessageDialogBuilder().setTitle("BÂ³Â¹d logowania").setText("NieprawidÂ³owe hasÂ³o lub login")
 
 								.addButton(MessageDialogButton.Close).build().showDialog(gui);
 					}
@@ -158,12 +162,12 @@ public class Interfejs {
 		gui = new MultiWindowTextGUI(screen);
 
 		new ActionListDialogBuilder().setTitle("Menu rejestracji").setDescription("Wybierz opcje")
-				.addAction("Zarz¹dzanie pacjentami", new Runnable() {
+				.addAction("ZarzÂ¹dzanie pacjentami", new Runnable() {
 					@Override
 					public void run() {
 						// Do 1st thing...
 					}
-				}).addAction("Zarz¹dzanie lekarzami", new Runnable() {
+				}).addAction("ZarzÂ¹dzanie lekarzami", new Runnable() {
 					@Override
 					public void run() {
 						// Do 2nd thing...
@@ -180,7 +184,6 @@ public class Interfejs {
 					}
 				}).build().showDialog(gui);
 	}
-//<<<<<<< HEAD
 	public class ButtonListener implements Button.Listener
 	{
 
@@ -190,35 +193,27 @@ public class Interfejs {
 			if(button.equals(Pacjent))
 			{
 				przyciskPacjent = true;
-				//window.addWindowListener(windowListener);
-				//window.removeWindowListener(listener0);
-	    		//window.removeWindowListener(listener1);
-	    		//window.removeWindowListener(listener2);
-	    		//window.removeWindowListener(listener3);
-	    		//window.removeWindowListener(listener4);
-				System.out.println("XDD");
 			}
 			if(button.equals(Wizyty))
 			{
-				System.out.println("Heh");
+				przyciskWizyty = true;
 			}
 			if(button.equals(Recepty))
 			{
-				
+				przyciskRecepty = true;
 				
 			}
 			if(button.equals(Skierowania))
 			{
-				
+				przyciskSkierowania = true;
 			}
 		}
 		
 	}
-//=======
 
 	public void wyswietl_pacjentow(Window window, String filtr) {
 		table = new Table<String>("Pesel", "Imie", "Nazwisko", "Wiek", "Ulica", "Numer domu", "Numer mieszkania",
-				"Miejscowoœæ");
+				"MiejscowoÅ“Ã¦");
 		
 		Pacjent.onEnterFocus(null, null);
 		table.setVisibleColumns(30);
@@ -288,6 +283,48 @@ public class Interfejs {
 			}
 
 	}
+	void wyswietl_recepty(Window window) {
+		Recepty.onEnterFocus(null, null);
+		table = new Table<String>("Pesel", "Imie lekarza", "Nazwisko lekarza", "Data", "Opis");
+
+		table.setVisibleColumns(7);
+		table.setVisibleRows(10);
+		int j = 0;
+		for (Recepta a : C.getRecepty()) {
+			table.getTableModel().addRow(a.getPesel_pacjenta(), C.getLekarze().get(a.getId_lekarza()).getImie(),
+					C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(), a.getOpis());
+			j ++;
+			}
+		
+		if(j != 0) {
+			container.addComponent(table);
+
+			container.addComponent(new EmptySpace());
+			
+			}
+	}
+	void wyswietl_recepty1() {
+		Recepty.onEnterFocus(null, null);
+	
+		table = new Table<String>("Pesel", "Imie lekarza", "Nazwisko lekarza", "Data", "Opis");
+		
+		table.setVisibleColumns(7);
+		table.setVisibleRows(10);
+		int j = 0;
+		for (Recepta a : C.getRecepty()) {
+		
+			table.getTableModel().addRow(a.getPesel_pacjenta(), C.getLekarze().get(a.getId_lekarza()).getImie(),
+					C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(), a.getOpis());
+			j ++;
+			
+		}
+		if(j != 0) {
+			container.addComponent(table);
+
+			container.addComponent(new EmptySpace());
+			
+			}
+	}
 
 	void wyswietl_recepty(Window window,String filtr) {
 		Recepty.onEnterFocus(null, null);
@@ -311,62 +348,71 @@ public class Interfejs {
 			}
 	}
 
-//>>>>>>> branch 'master' of https://github.com/kucharz96/projekt_kck.git
 	public class KeyStrokeListener implements WindowListener {
-//<<<<<<< HEAD
-		
-		//private boolean focus1,focus2,focus3,focus4;
-		
-//=======
 
 		private boolean focus1, focus2, focus3, focus4;
 
-//>>>>>>> branch 'master' of https://github.com/kucharz96/projekt_kck.git
+
 		public void onInput(Window basePane, KeyStroke keyStroke, AtomicBoolean deliverEvent) {
+			
+			//Dla dodawania informacji//
 	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskPacjent == true)
 	    	{
-	    		///Dla F6
 	    		Dodaj_pacjenta();
-	    		/*
-	    	new MessageDialogBuilder()
-			.setTitle("Wcisniêty F6!")
-=======
-			if (keyStroke.getKeyType() == KeyType.F6) {
-				/// Dla F6
-				Dodaj_pacjenta();
-				new MessageDialogBuilder().setTitle("Wcisniêty F6!")
->>>>>>> branch 'master' of https://github.com/kucharz96/projekt_kck.git
-
-<<<<<<< HEAD
-			.addButton(MessageDialogButton.Close)
-			.build()
-			.showDialog(gui);
-			*/
 	    	}
-	    	if(keyStroke.getKeyType() == KeyType.F7)
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskRecepty == true)
 	    	{
-	    		///Dla F7
-	    	new MessageDialogBuilder()
-			.setTitle("Wcisniêty F7!")
-
-						.addButton(MessageDialogButton.Close).build().showDialog(gui);
+					Dodaj_recepte();		
 			}
-			if (keyStroke.getKeyType() == KeyType.F7) {
-				/// Dla F7
-				new MessageDialogBuilder().setTitle("Wcisniêty F7!")
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskSkierowania == true)
+	    	{
+	    		Dodaj_skierowanie();
+			
+			}
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskWizyty == true)
+	    	{
+	    		Dodaj_wizyte();
+			
+			}
+	    	///////////////////////////////////////////////////////////////////////////ZROBIÄ† USUWANIE////////////////////////////////////////////////////////////////////////
+	    	//Usuwanie informacji po enterze//
+			if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true) {
+				new MessageDialogBuilder().setTitle("Wybranio usuwanie pacjentow.")
+				.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+					//C.removePacjent(table.getSelectedRow()+1);
+					table.setSelectAction(new Runnable() {
+						@Override
+						public void run() {
+							//List<String> data = table.getTableModel().getRow(table.getSelectedRow());
+							System.out.println(table.getTableModel().getRowCount()-1);
+							   table.getTableModel().removeRow(table.getSelectedRow()-1);
+							   C.removePacjent(table.getSelectedRow());
+							}
+						
+					});
+					//table.getTableModel().removeRow(table.getSelectedRow());
+					
+				/*
+				new MessageDialogBuilder().setTitle("WcisniÃªty F7!")
 						.addButton(MessageDialogButton.Close).build().showDialog(gui);
+						*/
 			}
 			if (keyStroke.getKeyType() == KeyType.F8) {
 				/// Dla F8
-				new MessageDialogBuilder().setTitle("Wcisniêty F8!")
+				new MessageDialogBuilder().setTitle("WcisniÃªty F8!")
 
 			.addButton(MessageDialogButton.Close)
 			.build()
 			.showDialog(gui);
 	    	}
-	    	if(basePane.getFocusedInteractable() == wyszukiwarka1 && (keyStroke.getKeyType() == KeyType.ArrowUp || keyStroke.getKeyType() == KeyType.Escape) ) {
-	    		
+			
+	    	if(basePane.getFocusedInteractable() == wyszukiwarka1 && ( keyStroke.getKeyType() == KeyType.ArrowUp) ) {
+	    		System.out.println("XD");
+	    		//window.close();
 	    		przyciskPacjent = false;
+	    		przyciskWizyty = false;
+	    		przyciskRecepty = false;
+	    		przyciskSkierowania = false;
 	    		Pacjent.onLeaveFocus(null, null);
 	    		Skierowania.onLeaveFocus(null, null);
 	    		Wizyty.onLeaveFocus(null, null);
@@ -415,13 +461,19 @@ public class Interfejs {
 			
 			}
 			
-			
 			if(check == 4 && window.getFocusedInteractable() == wyszukiwarka1) {
 				container.removeAllComponents();
 				wyswietl_recepty(window,wyszukiwarka1.getText());
 				
 			
 			}
+			/*
+			if(check == 5 && window.getComponent() == container)
+			{
+				container.removeAllComponents();
+				wyswietl_recepty1();
+			}
+			*/
 				
 		}
 	}
@@ -429,7 +481,6 @@ public class Interfejs {
 
 	public void Dodaj_pacjenta() {
 		BasicWindow window = new BasicWindow("Dodaj pacjenta");
-//>>>>>>> branch 'master' of https://github.com/kucharz96/projekt_kck.git
 		Panel mainpanel = new Panel(new GridLayout(2));
 		// Do PESELU
 		mainpanel.addComponent(new Label("Numer PESEL"));
@@ -440,7 +491,7 @@ public class Interfejs {
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
 
-		// Imiê
+		// ImiÃª
 		mainpanel.addComponent(new Label("Imie"));
 		TextBox TextImie = new TextBox().setPreferredSize(new TerminalSize(12, 1))
 				.setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
@@ -483,8 +534,8 @@ public class Interfejs {
 		mainpanel.addComponent(TextNumerMieszkania);
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
-		// Miejscowoœæ
-		mainpanel.addComponent(new Label("Miejscowoœæ"));
+		// MiejscowoÅ“Ã¦
+		mainpanel.addComponent(new Label("MiejscowoÅ“Ã¦"));
 		TextBox TextMiejscowosc = new TextBox().setPreferredSize(new TerminalSize(12, 1))
 				.setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
 		mainpanel.addComponent(TextMiejscowosc);
@@ -496,13 +547,13 @@ public class Interfejs {
 				if (TextImie.getText().isEmpty() || TextNazwisko.getText().isEmpty() || TextWiek.getText().isEmpty()
 						|| TextUlica.getText().isEmpty() || TextNumerDomu.getText().isEmpty()
 						|| TextNumerMieszkania.getText().isEmpty() || TextMiejscowosc.getText().isEmpty()) {
-					new MessageDialogBuilder().setTitle("Error").setText("Uzupe³nij puste pola.")
+					new MessageDialogBuilder().setTitle("Error").setText("UzupeÂ³nij puste pola.")
 							.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
 				}
 				for (Pacjent P : C.getPacjenci()) {
 
 					if (TextPesel.getText().equals(P.getPesel())) {
-						new MessageDialogBuilder().setTitle("Error").setText("Pesel ju¿ taki wystêpuje.")
+						new MessageDialogBuilder().setTitle("Error").setText("Pesel juÂ¿ taki wystÃªpuje.")
 								.addButton(MessageDialogButton.Close).build().showDialog(gui);
 					}
 				}
@@ -522,16 +573,240 @@ public class Interfejs {
 
     	window.setHints(Arrays.asList(Window.Hint.CENTERED));
         window.setComponent(mainpanel);
+        window.setCloseWindowWithEscape(true);
         //window1.removeWindowListener(listener1);
         //window1.removeWindowListener(listener);
         // Create gui and start gui
         gui.addWindowAndWait(window);
 	}
-	public void Okno_glowne() throws IOException {
-		BasicWindow window = new BasicWindow();
-		Panel mainPanel = new Panel();
+	////////////////////////////////////////////Dodaj wizyte//////////////////////////////////////////////////////////
+	public void Dodaj_wizyte()
+	{
+		BasicWindow window = new BasicWindow("Dodaj recepte");
+		Panel mainpanel = new Panel(new GridLayout(2));
+		//mainpanel.setPreferredSize(new TerminalSize(40, 10));
+		//Lekarz
+		mainpanel.addComponent(new Label("ID lekarza"));
+		ComboBox<String> listaLekarzy = new ComboBox<String>().setReadOnly(false)
+				.setPreferredSize(new TerminalSize(21, 1));
+		for (Lekarz L : C.getLekarze()) {
+			listaLekarzy.addItem(L.getId() + " : "+L.getImie() +" "+ L.getNazwisko());
+		}
+		mainpanel.addComponent(listaLekarzy);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		//
+		//Pacjent
+		mainpanel.addComponent(new Label("Pacjent"));
+		ComboBox<String> listaPacjentow = new ComboBox<String>().setReadOnly(false)
+				.setPreferredSize(new TerminalSize(21, 1));
+		for (Pacjent P: C.getPacjenci()) {
+			listaPacjentow.addItem(P.getPesel()+ " : "+P.getImie() +" "+ P.getNazwisko());
+		}
+		mainpanel.addComponent(listaPacjentow);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
 		
+		//Data
+		mainpanel.addComponent(new Label("Data:(DD-MM-RRRR HH:MM)"));
+		TextBox TextData = new TextBox().setPreferredSize(new TerminalSize(21, 3));
+		mainpanel.addComponent(TextData);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		
+		//Opis
+		mainpanel.addComponent(new Label("Opis"));
+		TextBox TextOpis = new TextBox().setPreferredSize(new TerminalSize(21, 3));
+		mainpanel.addComponent(TextOpis);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		Button button = new Button("Dodaj", new Runnable() {
+			///////////////////DODAC FUNKCJE Z DODAWANIEM///////////////////////
+			@Override
+			public void run() {
+					if(TextData.getText().isEmpty() || TextOpis.getText().isEmpty())
+					{
+						new MessageDialogBuilder().setTitle("Error").setText("Uzupelnij dane.")
+						.addButton(MessageDialogButton.Close).build().showDialog(gui);
+					}
+					SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+					Date Data = null;
+					
+					try {
+						Data = formatter.parse(TextData.getText());
+						String wyraz = listaPacjentow.getSelectedItem();
+						String wyr[] = wyraz.split(" ", 2);
+						C.addWizyta(new Wizyta(listaLekarzy.getSelectedIndex(), wyr[0], TextOpis.getText(), TextData.getText()));
+						
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+				}
+				
+    	});
+        Button button1 = new Button("Zamknij", new Runnable() {
+    		@Override
+    		public void run() {
+    	       
+    			window.close();
+    		}
+    	});
+        mainpanel.addComponent(button1);
+        mainpanel.addComponent(button);
 
+    	window.setHints(Arrays.asList(Window.Hint.CENTERED));
+        window.setComponent(mainpanel);
+        window.setCloseWindowWithEscape(true);
+        gui.addWindowAndWait(window);
+	}
+	//////////////////////////////////////Dodaj recepte/////////////////////////////////////////////////////
+	public void Dodaj_recepte()
+	{			check = 5;
+				try {
+					terminal.flush();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				BasicWindow window = new BasicWindow("Dodaj recepte");
+				Panel mainpanel = new Panel(new GridLayout(2));
+				mainpanel.setPreferredSize(new TerminalSize(40, 10));
+				mainpanel.addComponent(new Label("ID lekarza"));
+				// mainpanel.addComponent(new EmptySpace());
+				ComboBox<String> listaLekarzy = new ComboBox<String>().setReadOnly(true)
+						.setPreferredSize(new TerminalSize(20, 1));
+				for (Lekarz L : C.getLekarze()) {
+					listaLekarzy.addItem(L.getId()+" : "+L.getImie() +" "+ L.getNazwisko());
+				}
+				mainpanel.addComponent(listaLekarzy);
+				mainpanel.addComponent(new EmptySpace());
+				mainpanel.addComponent(new EmptySpace());
+				mainpanel.addComponent(new Label("Pacjent"));
+				ComboBox<String> listaPacjentow = new ComboBox<String>().setReadOnly(true)
+						.setPreferredSize(new TerminalSize(20, 1));
+				for (Pacjent P: C.getPacjenci()) {
+					listaPacjentow.addItem(P.getPesel()+ " : "+P.getImie() +" "+ P.getNazwisko());
+				}
+				mainpanel.addComponent(listaPacjentow);
+				mainpanel.addComponent(new EmptySpace());
+				mainpanel.addComponent(new EmptySpace());
+
+				// Opis (Data doda siÄ™ automatycznie)
+				mainpanel.addComponent(new Label("Opis"));
+				TextBox TextOpis = new TextBox().setPreferredSize(new TerminalSize(20, 3));
+				mainpanel.addComponent(TextOpis);
+				mainpanel.addComponent(new EmptySpace());
+				mainpanel.addComponent(new EmptySpace());
+				Button button = new Button("Dodaj", new Runnable() {
+					///////////////////DODAC FUNKCJE Z DODAWANIEM///////////////////////
+					@Override
+					public void run() {
+						if(TextOpis.getText().isEmpty())
+						{
+							new MessageDialogBuilder().setTitle("Error").setText("Uzupelnij dane.")
+							.addButton(MessageDialogButton.Close).build().showDialog(gui);
+						}
+						else{
+							String wyraz = listaPacjentow.getSelectedItem();
+							String wyr[] = wyraz.split(" ", 2);
+							C.addRecepta(new Recepta(listaLekarzy.getSelectedIndex(), wyr[0], TextOpis.getText()));		
+						}
+				
+					}
+						
+		    	});
+		        Button button1 = new Button("Zamknij", new Runnable() {
+		    		@Override
+		    		public void run() {  
+		    			window.close();
+		    		}
+		    	});
+		        mainpanel.addComponent(button1);
+		        mainpanel.addComponent(button);
+		        
+		    	window.setHints(Arrays.asList(Window.Hint.CENTERED));
+		        window.setComponent(mainpanel);
+		        gui.addWindowAndWait(window);
+		       // window.setCloseWindowWithEscape(true);
+		
+		        
+	}
+	////////////////////////////////////Dodaj skierowanie////////////////////////////////
+	public void Dodaj_skierowanie()
+	{
+				check = 5;
+				BasicWindow window = new BasicWindow("Dodaj skierowanie");
+				Panel mainpanel = new Panel(new GridLayout(2));
+				mainpanel.addComponent(new Label("ID lekarza"));
+				ComboBox<String> listaLekarzy = new ComboBox<String>().setReadOnly(true)
+						.setPreferredSize(new TerminalSize(30, 1));
+				for (Lekarz L : C.getLekarze()) {
+					listaLekarzy.addItem(L.getId()+" : "+L.getImie() +" "+ L.getNazwisko());
+				}
+				mainpanel.addComponent(listaLekarzy);
+				mainpanel.addComponent(new EmptySpace());
+				mainpanel.addComponent(new EmptySpace());
+				
+				mainpanel.addComponent(new Label("Pacjent"));
+				ComboBox<String> listaPacjentow = new ComboBox<String>().setReadOnly(true)
+						.setPreferredSize(new TerminalSize(30, 1));
+				for (Pacjent P: C.getPacjenci()) {
+					listaPacjentow.addItem(P.getPesel()+ " : "+P.getImie() +" "+ P.getNazwisko());
+				}
+				mainpanel.addComponent(listaPacjentow);
+				mainpanel.addComponent(new EmptySpace());
+				mainpanel.addComponent(new EmptySpace());
+
+				// Opis (Data doda siÄ™ automatycznie)
+				mainpanel.addComponent(new Label("Cel"));
+				TextBox TextCel = new TextBox().setPreferredSize(new TerminalSize(20, 3));
+				mainpanel.addComponent(TextCel);
+				mainpanel.addComponent(new EmptySpace());
+				mainpanel.addComponent(new EmptySpace());
+				
+				mainpanel.addComponent(new Label("Opis"));
+				TextBox TextOpis = new TextBox().setPreferredSize(new TerminalSize(20, 3));
+				mainpanel.addComponent(TextOpis);
+				mainpanel.addComponent(new EmptySpace());
+				mainpanel.addComponent(new EmptySpace());
+				Button button = new Button("Dodaj", new Runnable() {
+					///////////////////DODAC FUNKCJE Z DODAWANIEM///////////////////////
+					@Override
+					public void run() {
+						if(TextOpis.getText().isEmpty() || TextCel.getText().isEmpty())
+							new MessageDialogBuilder().setTitle("Error").setText("Uzupelnij puste pola.")
+									.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+
+						
+						else
+						{
+							String wyraz = listaPacjentow.getSelectedItem();
+							String wyr1[] = wyraz.split(" ", 2);
+							C.addSkierowanie(new Skierowanie(listaLekarzy.getSelectedIndex(), wyr1[0], TextCel.getText(), TextOpis.getText()));
+						}
+					}
+		    	});
+		        Button button1 = new Button("Zamknij", new Runnable() {
+		    		@Override
+		    		public void run() {
+		    	       
+		    			window.close();
+		    		}
+		    	});
+		        mainpanel.addComponent(button1);
+		        mainpanel.addComponent(button);
+
+		    	window.setHints(Arrays.asList(Window.Hint.CENTERED));
+		        window.setComponent(mainpanel);
+		        //window.setCloseWindowWithEscape(true);
+		        gui.addWindowAndWait(window);
+	}
+	public void Okno_glowne() throws IOException {
+		window = new BasicWindow();
+		Panel mainPanel = new Panel();
 		final WindowBasedTextGUI textGUI = new MultiWindowTextGUI(screen);
 		//KeyStroke keyStroke = terminal.pollInput();
         
@@ -573,7 +848,7 @@ public class Interfejs {
 				//window.removeWindowListener(listener2);
 				//window.removeWindowListener(listener3);
 				//window.removeWindowListener(listener4);
-				table = new Table<String>("Pesel","Imie","Nazwisko","Wiek", "Ulica", "Numer domu", "Numer mieszkania", "Miejscowoœæ");
+				table = new Table<String>("Pesel","Imie","Nazwisko","Wiek", "Ulica", "Numer domu", "Numer mieszkania", "MiejscowoÅ“Ã¦");
 
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
@@ -654,12 +929,12 @@ public class Interfejs {
 
 		base1Panel1.setLayoutManager(new GridLayout(6));
 
-		mainPanel.addComponent(base1Panel1.withBorder(Borders.singleLine("Skróty")));
+		mainPanel.addComponent(base1Panel1.withBorder(Borders.singleLine("SkrÃ³ty")));
 
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F6: Dodaj"));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
-		base1Panel1.addComponent(new Label("F7: Usuñ"));
+		base1Panel1.addComponent(new Label("F7: UsuÃ±"));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F8: Edytuj"));
 
