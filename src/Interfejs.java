@@ -395,7 +395,7 @@ public class Interfejs {
 				panel_tmp.addComponent(panel);
 
 				panel.setLayoutManager(new GridLayout(2));
-				panel.addComponent(new Label("Czy na pewno chcesz usun�� rekord?"));
+				panel.addComponent(new Label("Czy na pewno chcesz usun�� rekord?"));
 				panel.addComponent(new Label(""));
 
 				panel.addComponent(new EmptySpace());
@@ -454,7 +454,7 @@ public class Interfejs {
 					}
 			
 			//////////////////////EDYCJA///////////////////////////////////////////////////////////////////////////////////////////////////////
-			if (keyStroke.getKeyType() == KeyType.F8 && przyciskPacjent == true && spr == true) {
+			if (keyStroke.getKeyType() == KeyType.F8 && przyciskPacjent == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getPacjenci().size()) {
 				/// Dla F8
 				List<String> data = table.getTableModel().getRow(table.getSelectedRow());
 				for(int i = 0; i < data.size(); i++) {
@@ -569,7 +569,7 @@ public class Interfejs {
 
 	    	}
 /////////////////////////////////////////////////////////////EDYCJA SKIEROWANIA////////////////////////////////////////////////////////////
-			if(keyStroke.getKeyType() == KeyType.F8 && przyciskSkierowania == true && spr == true)
+			if(keyStroke.getKeyType() == KeyType.F8 && przyciskSkierowania == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getPacjenci().size())
 			{
 				final TextBox.Style MULTI_LINE;
 				List<String> data = table.getTableModel().getRow(table.getSelectedRow());
@@ -653,7 +653,7 @@ public class Interfejs {
 			}
 
 	    	//////////////////////////////////////////EDYCJA WIZYTY////////////////////////////////////////////////
-	    	if(keyStroke.getKeyType() == KeyType.F8 && przyciskWizyty == true && spr == true)
+	    	if(keyStroke.getKeyType() == KeyType.F8 && przyciskWizyty == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getPacjenci().size())
 	    	{
 	    		List<String> data = table.getTableModel().getRow(table.getSelectedRow());
 				for(int i = 0; i < data.size(); i++) {
@@ -756,7 +756,7 @@ public class Interfejs {
 		        gui.addWindowAndWait(window);
 	    	}
 	    	//////////////////////////////////////////EDYCJA RECEPTY////////////////////////////////////////////////
-	    	if(keyStroke.getKeyType() == KeyType.F8 && przyciskRecepty == true && spr == true)
+	    	if(keyStroke.getKeyType() == KeyType.F8 && przyciskRecepty == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getPacjenci().size())
 	    	{
 	    		List<String> data = table.getTableModel().getRow(table.getSelectedRow());
 				for(int i = 0; i < data.size(); i++) {
@@ -949,7 +949,7 @@ public class Interfejs {
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
 		// Miejscowoœæ
-		mainpanel.addComponent(new Label("Miejscowoœæ"));
+		mainpanel.addComponent(new Label("Miejscowość"));
 		TextBox TextMiejscowosc = new TextBox().setPreferredSize(new TerminalSize(12, 1))
 				.setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
 		mainpanel.addComponent(TextMiejscowosc);
@@ -960,17 +960,22 @@ public class Interfejs {
 			public void run() {
 				if (TextImie.getText().isEmpty() || TextNazwisko.getText().isEmpty() || TextWiek.getText().isEmpty()
 						|| TextUlica.getText().isEmpty() || TextNumerDomu.getText().isEmpty()
-						|| TextNumerMieszkania.getText().isEmpty() || TextMiejscowosc.getText().isEmpty()) {
-					new MessageDialogBuilder().setTitle("Error").setText("Uzupe³nij puste pola.")
+						|| TextNumerMieszkania.getText().isEmpty() || TextMiejscowosc.getText().isEmpty() || (TextPesel.getText().length() < 11)) {
+					new MessageDialogBuilder().setTitle("Error").setText("Uzupełnij prawidłowo pola.")
 							.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+					return;
+					
 				}
 				for (Pacjent P : C.getPacjenci()) {
 
 					if (TextPesel.getText().equals(P.getPesel())) {
-						new MessageDialogBuilder().setTitle("Error").setText("Pesel ju¿ taki wystêpuje.")
-								.addButton(MessageDialogButton.Close).build().showDialog(gui);
+						new MessageDialogBuilder().setTitle("Error").setText("Pesel już taki wystêeuje.")
+								.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+						return;
 					}
 				}
+				C.addPacjent(new Pacjent(TextPesel.getText(), TextImie.getText(), TextNazwisko.getText(), Integer.parseInt(TextWiek.getText()), TextUlica.getText(),
+						Integer.parseInt(TextNumerDomu.getText()), Integer.parseInt(TextNumerMieszkania.getText()), TextMiejscowosc.getText()));
 				
     		}
     	});
@@ -981,6 +986,7 @@ public class Interfejs {
     			window.close();
     		}
     	});
+
         mainpanel.addComponent(button1);
 		//mainpanel.addComponent(new EmptySpace(new TerminalSize(0,0)));
         mainpanel.addComponent(button);
@@ -1122,6 +1128,10 @@ public class Interfejs {
 							String wyraz = listaPacjentow.getSelectedItem();
 							String wyr[] = wyraz.split(" ", 2);
 							C.addRecepta(new Recepta(listaLekarzy.getSelectedIndex(), wyr[0], TextOpis.getText()));		
+							/*
+					        container.removeAllComponents();
+							wyswietl_recepty(window,wyszukiwarka1.getText());
+							*/
 						}
 				
 					}
