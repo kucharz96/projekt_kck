@@ -64,6 +64,7 @@ public class Interfejs {
 	private Button Skierowania;
 	private Button Wizyty;
 	private Button Recepty;
+	private Button Lekarz;
 	private VirtualScreen Vscreen;
 	private Terminal terminal;
 	private Screen screen;
@@ -272,6 +273,39 @@ public class Interfejs {
 			
 			}
 		
+
+	}
+	void wyswietl_lekarzy(Window window,String filtr) {
+		Lekarz.onEnterFocus(null, null);
+		base1Panel1.removeAllComponents();
+		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
+		base1Panel1.addComponent(new Label("F6: Dodaj"));
+		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
+		base1Panel1.addComponent(new Label("F7: Usuñ"));
+		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
+		base1Panel1.addComponent(new Label("F8: Edytuj"));
+		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
+		base1Panel1.addComponent(new Label("F11: Wyloguj"));
+		table = new Table<String>("Login", "Haslo", "Imie", "Nazwisko", "Wiek", "Numer sali", "Telefon");
+		int j = 0;
+		table.setVisibleColumns(175);
+		table.setVisibleRows(10);
+		/*
+		for (Lekarz L : C.getLekarze()) {
+			if(L.getId().startsWith(filtr)) {
+				table.getTableModel().addRow(L.getId(), L.getLogin(),
+					C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(), a.getOpis());
+				j ++;
+			}
+		}
+		*/
+		
+		if(j != 0) {
+			container.addComponent(table);
+
+			container.addComponent(new EmptySpace());
+			
+			}
 
 	}
 	
@@ -699,6 +733,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == tru
 							}
 							else
 							{
+								check = 5;
 								P.setPesel(TextPesel.getText());
 								P.setImie(TextImie.getText());
 								P.setNazwisko(TextNazwisko.getText());
@@ -707,7 +742,6 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == tru
 								P.setNr_domu(Integer.parseInt(TextNumerDomu.getText()));
 								P.setNr_mieszkania(Integer.parseInt(TextNumerMieszkania.getText()));
 								P.setUlica(TextUlica.getText());
-								return;
 							}
 							
 						  }
@@ -887,6 +921,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == tru
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
+								check = 6;
 								Wizyta W =	C.getWizyty().get(table.getSelectedRow());
 								
 								String wyraz = listaPacjentow.getSelectedItem();
@@ -1091,6 +1126,13 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == tru
 				System.out.println("onResized 6");
 				wyswietl_wizyty(window, "");
 			}
+			if(check == 7)
+			{
+				container.removeAllComponents();
+				window.setFocusedInteractable(Wizyty);
+				System.out.println("onResized 6");
+				wyswietl_lekarzy(window, "");
+			}
 			
 
 		
@@ -1204,6 +1246,114 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == tru
         window.setCloseWindowWithEscape(true);
         //window1.removeWindowListener(listener1);
         //window1.removeWindowListener(listener);
+        // Create gui and start gui
+        gui.addWindowAndWait(window);
+	}
+	//////////////////////////////////////////////////////////////DODAJ LEKARZA//////////////////////////////////////////////////////////////
+	public void Dodaj_lekarza() {
+		
+		BasicWindow window = new BasicWindow("Dodaj lekarza");
+		Panel mainpanel = new Panel(new GridLayout(2));
+
+
+		// Login
+		mainpanel.addComponent(new Label("Login"));
+		TextBox TextLogin = new TextBox().setPreferredSize(new TerminalSize(12, 1));
+		mainpanel.addComponent(TextLogin);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+
+		// Haslo
+		mainpanel.addComponent(new Label("Haslo"));
+		TextBox TextHaslo = new TextBox().setPreferredSize(new TerminalSize(12, 1));
+		mainpanel.addComponent(TextHaslo);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		
+		// imie
+		mainpanel.addComponent(new Label("Imie"));
+		TextBox TextImie = new TextBox().setPreferredSize(new TerminalSize(12, 1))
+				.setValidationPattern(Pattern.compile("([0-9]){0,3}"));
+		mainpanel.addComponent(TextImie);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		// Nazwisko
+		mainpanel.addComponent(new Label("Nazwisko"));
+		TextBox TextNazwisko = new TextBox().setPreferredSize(new TerminalSize(12, 1))
+				.setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
+		mainpanel.addComponent(TextNazwisko);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		// Wiek
+		mainpanel.addComponent(new Label("Wiek"));
+		TextBox TextWiek = new TextBox().setPreferredSize(new TerminalSize(12, 1))
+				.setValidationPattern(Pattern.compile("([0-9]){0,3}"));
+		mainpanel.addComponent(TextWiek);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		
+		// Numer sali
+		mainpanel.addComponent(new Label("Numer sali"));
+		TextBox TextNumerSali = new TextBox().setPreferredSize(new TerminalSize(12, 1))
+				.setValidationPattern(Pattern.compile("([0-9]){0,3}"));
+		mainpanel.addComponent(TextNumerSali);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		
+		// Telefon
+		mainpanel.addComponent(new Label("Telefon"));
+		TextBox TextTelefon = new TextBox().setPreferredSize(new TerminalSize(12, 1))
+				.setValidationPattern(Pattern.compile("([0-9]){0,11}"));
+		mainpanel.addComponent(TextTelefon);
+		mainpanel.addComponent(new EmptySpace());
+		mainpanel.addComponent(new EmptySpace());
+		Button button = new Button("Dodaj", new Runnable() {
+			@Override
+			public void run() {
+
+				if (TextImie.getText().isEmpty() || TextNazwisko.getText().isEmpty() || TextWiek.getText().isEmpty()
+						|| TextHaslo.getText().isEmpty() || TextNumerSali.getText().isEmpty()
+						|| TextTelefon.getText().isEmpty() || TextLogin.getText().isEmpty()) {
+					new MessageDialogBuilder().setTitle("Error").setText("Uzupełnij Puste pola.")
+							.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+					return;
+					
+				}
+				if(TextLogin.getText().length() < 6 || TextHaslo.getText().length() < 6)
+				{
+					new MessageDialogBuilder().setTitle("Error").setText("Login i haslo musza mieć co najmniej 6 znaków.")
+					.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+					return;
+				}
+				for (Lekarz L : C.getLekarze()) {
+
+					if (TextLogin.getText().equals(L.getLogin())) {
+						new MessageDialogBuilder().setTitle("Error").setText("Login już istnieje.")
+								.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+						return;
+					}
+				}
+				check = 7;
+				C.addLekarz(new Lekarz(TextLogin.getText(), TextHaslo.getText(), TextImie.getText(), TextNazwisko.getText(), Integer.parseInt(TextWiek.getText()),
+						Integer.parseInt(TextNumerSali.getText()), TextTelefon.getText()));
+				
+    		}
+    	});
+        Button button1 = new Button("Zamknij", new Runnable() {
+    		@Override
+    		public void run() {
+    	       
+    			window.close();
+    		}
+    	});
+
+        mainpanel.addComponent(button1);
+		//mainpanel.addComponent(new EmptySpace(new TerminalSize(0,0)));
+        mainpanel.addComponent(button);
+
+    	window.setHints(Arrays.asList(Window.Hint.CENTERED));
+        window.setComponent(mainpanel);
+        window.setCloseWindowWithEscape(true);
         // Create gui and start gui
         gui.addWindowAndWait(window);
 	}
