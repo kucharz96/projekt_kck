@@ -1570,7 +1570,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == tru
 		base1Panel1.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
 
 		mainPanel.addComponent(base1Panel1.withBorder(Borders.singleLine("Skróty")));
-		
+		//
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F6: Dodaj"));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
