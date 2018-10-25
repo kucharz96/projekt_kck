@@ -1376,7 +1376,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				System.out.println("check 6");
 				wyswietl_wizyty(window, "");
 			}
-			//
+			
 			if(check == 7)
 			{
 				container.removeAllComponents();
