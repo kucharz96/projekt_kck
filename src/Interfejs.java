@@ -1,5 +1,4 @@
-import java.awt.Container;
-import java.io.File;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,21 +11,13 @@ import java.util.regex.Pattern;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.graphics.Theme;
-import com.googlecode.lanterna.graphics.ThemeDefinition;
-import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Button;
-import com.googlecode.lanterna.gui2.Button.Listener;
 import com.googlecode.lanterna.gui2.ComboBox;
 import com.googlecode.lanterna.gui2.Direction;
 import com.googlecode.lanterna.gui2.EmptySpace;
 import com.googlecode.lanterna.gui2.GridLayout;
-import com.googlecode.lanterna.gui2.InputFilter;
-import com.googlecode.lanterna.gui2.Interactable;
-import com.googlecode.lanterna.gui2.Interactable.FocusChangeDirection;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
@@ -34,28 +25,18 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
-import com.googlecode.lanterna.gui2.WindowDecorationRenderer;
 import com.googlecode.lanterna.gui2.WindowListener;
-import com.googlecode.lanterna.gui2.WindowPostRenderer;
-import com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder;
-import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.googlecode.lanterna.gui2.table.Table;
-import com.googlecode.lanterna.gui2.table.TableHeaderRenderer;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.AbstractScreen;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.Screen.RefreshType;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.screen.VirtualScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.MouseCaptureMode;
 import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.TerminalResizeListener;
 
-import javafx.scene.shape.Sphere;
 
 public class Interfejs {
 	private int check;
@@ -81,7 +62,6 @@ public class Interfejs {
 	private Panel base1Panel1 = new Panel().setPreferredSize(new TerminalSize(175, 1));
 	//Dla lekarza po ID
 	Panel info = new Panel().setPreferredSize(new TerminalSize(175, 1));
-//<<<<<<< HEAD
 	private boolean przyciskPacjent = false;
 	private boolean przyciskSkierowania = false;
 	private boolean przyciskWizyty = false;
@@ -90,12 +70,6 @@ public class Interfejs {
 	
 	private ButtonListener list = new ButtonListener();
 	private KeyStrokeListener listener0 = new KeyStrokeListener();
-	private KeyStrokeListener listener1 = new KeyStrokeListener();
-	private KeyStrokeListener listener2 = new KeyStrokeListener();
-	private KeyStrokeListener listener3 = new KeyStrokeListener();
-	private KeyStrokeListener listener4 = new KeyStrokeListener();
-//=======
-//>>>>>>> branch 'master' of https://github.com/kucharz96/projekt_kck.git
 
 	public Interfejs() throws IOException {
 		C = new Centrala();
@@ -479,7 +453,7 @@ public class ButtonListener implements Button.Listener
 				spr = true;
 				return;
 			}
-			//Dla dodawania informacji//
+
 			if(keyStroke.getKeyType() == KeyType.F11)
 			{
 				
@@ -1379,9 +1353,6 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 			
 			if(check == 4 && window.getFocusedInteractable() == wyszukiwarka1) {
 				container.removeAllComponents();
-				System.out.println("onMoved 4");
-				System.out.println(oldPosition);
-				System.out.println(newPosition);
 				wyswietl_recepty(window,wyszukiwarka1.getText());
 				
 			
@@ -1410,6 +1381,13 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 			{
 				container.removeAllComponents();
 				window.setFocusedInteractable(Wizyty);
+				System.out.println("check 7");
+				wyswietl_lekarzy(window, "");
+			}
+			if(check == 9)
+			{
+				container.removeAllComponents();
+				window.setFocusedInteractable(Lekarz);
 				System.out.println("check 7");
 				wyswietl_lekarzy(window, "");
 			}
@@ -1504,12 +1482,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 					}
 				}
 				check = 5;
-	            try {
-					terminal.bell();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
 				C.addPacjent(new Pacjent(TextPesel.getText(), TextImie.getText(), TextNazwisko.getText(), Integer.parseInt(TextWiek.getText()), TextUlica.getText(),
 						Integer.parseInt(TextNumerDomu.getText()), Integer.parseInt(TextNumerMieszkania.getText()), TextMiejscowosc.getText()));
 				
@@ -1627,13 +1600,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 						return;
 					}
 				}
-				check = 8;
-	            try {
-					terminal.bell();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				check = 9;
 				C.addLekarz(new Lekarz(TextLogin.getText(), TextHaslo.getText(), TextImie.getText(), TextNazwisko.getText(), Integer.parseInt(TextWiek.getText()),
 						Integer.parseInt(TextNumerSali.getText()), TextTelefon.getText()));
 				
@@ -1994,12 +1961,6 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 			public void run() {
 
 				window.addWindowListener(listener0);
-				//window.addWindowListener(listener1);
-				//window.removeWindowListener(listener2);
-				//window.removeWindowListener(listener3);
-				//window.removeWindowListener(listener4);
-				//table = new Table<String>("ID", "Login", "Haslo", "Imie", "Nazwisko", "Wiek", "Numer sali", "Telefon");
-
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
 				check = 8;
@@ -2043,10 +2004,8 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 
 		window.setHints(Arrays.asList(Window.Hint.FIT_TERMINAL_WINDOW, Window.Hint.EXPANDED));
 		window.setComponent(mainPanel);
-		terminal.flush();
 
         gui.addWindowAndWait(window);
-///
 
 
 	}
