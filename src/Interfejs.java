@@ -2055,37 +2055,4 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 
 	}
 
-	public void Okno_pacjenta() {
-		screen.clear();
-		gui = new MultiWindowTextGUI(screen);
-		BasicWindow window = new BasicWindow();
-
-		Panel mainPanel = new Panel().setPreferredSize(new TerminalSize(170, 45));
-
-		mainPanel.setLayoutManager(new LinearLayout(Direction.VERTICAL));
-
-		Panel upPanel = new Panel().setPreferredSize(new TerminalSize(170, 2));
-		mainPanel.addComponent(upPanel.withBorder(Borders.singleLine("Katalogi")));
-
-		Panel cointainerPanel = new Panel().setPreferredSize(new TerminalSize(170, 5));
-		mainPanel.addComponent(cointainerPanel.withBorder(Borders.singleLine("Cointainer")));
-		cointainerPanel.addComponent(new EmptySpace());
-		Panel basePanel = new Panel().setPreferredSize(new TerminalSize(170, 30));
-		mainPanel.addComponent(basePanel.withBorder(Borders.singleLine("Cointainer")));
-
-		Table<String> table = new Table<String>("Pesel", "Imie", "Nazwisko", "Wiek");
-		for (Pacjent a : C.getPacjenci()) {
-			table.getTableModel().addRow(a.getPesel(), a.getImie(), a.getNazwisko(), Integer.toString(a.getWiek()));
-
-		}
-		basePanel.addComponent(new EmptySpace());
-		basePanel.addComponent(table);
-
-		Panel base1Panel = new Panel().setPreferredSize(new TerminalSize(170, 3));
-		mainPanel.addComponent(base1Panel.withBorder(Borders.singleLine("Cointainer")));
-		window.setComponent(mainPanel);
-		gui.addWindowAndWait(window);
-
-	}
-
 }
