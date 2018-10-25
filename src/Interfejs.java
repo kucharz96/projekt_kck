@@ -576,6 +576,21 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskLekarz == true && spr == tru
 							   table.getTableModel().removeRow(table.getSelectedRow());
 							   
 						   C.removeLekarz(table.getSelectedRow());
+						   ///Usuwanie wizyt tego lekarza, skoro jego nie ma w bazie
+						   for(Wizyta W: C.getWizyty())
+						   {
+							   
+						   }
+						   //Usuwanie Skierowań lekarza (jak wyżej)
+						   for(Skierowanie S: C.getSkierowania())
+						   {
+							   
+						   }
+						   //Usuwanie recept
+						   for(Recepta R: C.getRecepty())
+						   {
+							   
+						   }
 						   window.setFocusedInteractable(Pacjent);
 						   window.close();
 						   
