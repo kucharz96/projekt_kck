@@ -31,10 +31,18 @@ public class Centrala {
 
 		addWizyta(new Wizyta(0, "96123934567", "chorysssssssssssss", "12-10-2005 12:00"));
 		addWizyta(new Wizyta(1, "96123983764", "chory", "12-10-2010 12:20"));
+		addWizyta(new Wizyta(2, "96123934567", "chorysssssssssssss", "12-10-2005 12:00"));
+		addWizyta(new Wizyta(3, "96123983764", "chory", "12-10-2010 12:20"));
+		
 		addSkierowanie(new Skierowanie(0, "96123934567", "chorysssssssssssss", "z³amanie"));
 		addSkierowanie(new Skierowanie(1, "96123983764", "chory", "z³amany piszczel przez Rafona"));
+		addSkierowanie(new Skierowanie(2, "96123934567", "chorysssssssssssss", "z³amanie"));
+		addSkierowanie(new Skierowanie(3, "96123983764", "chory", "z³amany piszczel przez Rafona"));
+		
 		addRecepta(new Recepta(0, "96123934567", "chorysssssssssssss"));
 		addRecepta(new Recepta(1, "96123983764", "chory"));
+		addRecepta(new Recepta(2, "96123934567", "chorysssssssssssss"));
+		addRecepta(new Recepta(3, "96123983764", "chory"));
 		
 		
 	}
@@ -72,21 +80,28 @@ public class Centrala {
 	}
 	public void removeLekarz(int index) {
 		
-			int i =0;
 			
-			if(!recepty.isEmpty())
-			{
-			for(Recepta R: recepty)
-			{	
+			
+			for(int i = 0;i<recepty.size();i++) {
+				if(recepty.get(i).getId_lekarza()==lekarze.get(index).getId())
+					recepty.remove(i);
 				
-				if(lekarze.get(index).getId() == R.getId_lekarza());
-				{
-					removeRecepta(i);
-					
-				}
-				i++;
+				
 			}
-		}
+			for(int i = 0;i<skierowania.size();i++) {
+				if(skierowania.get(i).getId_lekarza()==lekarze.get(index).getId())
+					skierowania.remove(i);
+				
+				
+			}
+			for(int i = 0;i<wizyty.size();i++) {
+				if(wizyty.get(i).getId_lekarza()==lekarze.get(index).getId())
+					wizyty.remove(i);
+				
+				
+			}
+			
+	
 			lekarze.remove(index);
 	}
 	public void addPacjent(Pacjent e) {

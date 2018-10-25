@@ -336,9 +336,18 @@ public class ButtonListener implements Button.Listener
 			return;
 		}
 		for (Wizyta a : C.getWizyty()) {
+			String imie = null;
+			String nazwisko = null;
 			if(a.getPesel_pacjenta().startsWith(filtr)) {
-				table.getTableModel().addRow(a.getPesel_pacjenta(), C.getLekarze().get(a.getId_lekarza()).getImie(),
-					C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(), a.getOpis());
+				
+				for(Lekarz b:C.getLekarze()) {
+					if(b.getId()==a.getId_lekarza()) {
+						imie=b.getImie();
+						nazwisko=b.getNazwisko();
+					}
+				}
+				table.getTableModel().addRow(a.getPesel_pacjenta(), imie,
+					nazwisko, a.getData().toString(), a.getOpis());
 				j ++;
 			}
 		}
@@ -376,9 +385,18 @@ public class ButtonListener implements Button.Listener
 			return;
 		}
 		for (Skierowanie a : C.getSkierowania()) {
+			String imie = null;
+			String nazwisko = null;
 			if(a.getPesel_pacjenta().startsWith(filtr)) {
-				table.getTableModel().addRow(a.getPesel_pacjenta(), C.getLekarze().get(a.getId_lekarza()).getImie(),
-					C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(), a.getOpis(),
+				
+				for(Lekarz b:C.getLekarze()) {
+					if(b.getId()==a.getId_lekarza()) {
+						imie=b.getImie();
+						nazwisko=b.getNazwisko();
+					}
+				}
+				table.getTableModel().addRow(a.getPesel_pacjenta(), imie,
+					nazwisko, a.getData().toString(), a.getOpis(),
 					a.getCel());
 				j ++;
 			}
