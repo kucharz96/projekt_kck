@@ -13,6 +13,8 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.graphics.Theme;
+import com.googlecode.lanterna.graphics.ThemeDefinition;
 import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Borders;
@@ -32,12 +34,15 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
+import com.googlecode.lanterna.gui2.WindowDecorationRenderer;
 import com.googlecode.lanterna.gui2.WindowListener;
+import com.googlecode.lanterna.gui2.WindowPostRenderer;
 import com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
 import com.googlecode.lanterna.gui2.table.Table;
+import com.googlecode.lanterna.gui2.table.TableHeaderRenderer;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.AbstractScreen;
@@ -124,7 +129,7 @@ public class Interfejs {
 		panel.addComponent(new EmptySpace(new TerminalSize(0, 2)));
 		TextBox haslo = new TextBox().setMask('*');
 
-		panel.addComponent(new Label("Has³o"));
+		panel.addComponent(new Label("Hasło"));
 		panel.addComponent(new EmptySpace(new TerminalSize(0, 0)));
 
 		panel.addComponent(haslo);
@@ -160,14 +165,11 @@ public class Interfejs {
 		});
 		panel.addComponent(button);
 		panel.addComponent(new EmptySpace(new TerminalSize(0, 0)));
-
 		panel.addComponent(button1);
-
 		// Create window to hold the panel
 		window.setHints(Arrays.asList(Window.Hint.CENTERED));
 		// window.setSize(new TerminalSize(50, 10));
 		window.setComponent(mainpanel);
-
 		// Create gui and start gui
 		gui.addWindowAndWait(window);
 
@@ -330,7 +332,7 @@ public class ButtonListener implements Button.Listener
 		int j = 0;
 		table.setVisibleColumns(175);
 		table.setVisibleRows(10);
-		if(C.getLekarze().isEmpty())
+		if(C.getLekarze().isEmpty() || C.getWizyty().isEmpty())
 		{
 			container.addComponent(new Label("Brak wizyt."));
 			return;
@@ -345,10 +347,12 @@ public class ButtonListener implements Button.Listener
 						imie=b.getImie();
 						nazwisko=b.getNazwisko();
 					}
+					
 				}
 				table.getTableModel().addRow(a.getPesel_pacjenta(), imie,
-					nazwisko, a.getData().toString(), a.getOpis());
-				j ++;
+						nazwisko, a.getData().toString(), a.getOpis());
+				j++;
+				/////////
 			}
 		}
 		
@@ -379,7 +383,7 @@ public class ButtonListener implements Button.Listener
 				
 			}
 		});
-		if (C.getLekarze().isEmpty())
+		if (C.getLekarze().isEmpty() || C.getSkierowania().isEmpty())
 		{
 			container.addComponent(new Label("Brak skierowań."));
 			return;
@@ -394,14 +398,15 @@ public class ButtonListener implements Button.Listener
 						imie=b.getImie();
 						nazwisko=b.getNazwisko();
 					}
+					
 				}
 				table.getTableModel().addRow(a.getPesel_pacjenta(), imie,
-					nazwisko, a.getData().toString(), a.getOpis(),
-					a.getCel());
-				j ++;
+						nazwisko, a.getData().toString(), a.getOpis(),
+						a.getCel());
+				j++;
+				/////////
 			}
 		}
-		
 		if(j != 0) {
 			container.addComponent(table);
 			container.addComponent(new EmptySpace());	
@@ -428,7 +433,7 @@ public class ButtonListener implements Button.Listener
 				
 			}
 		});
-		if(C.getLekarze().isEmpty())
+		if(C.getLekarze().isEmpty() || C.getRecepty().isEmpty())
 		{
 			container.addComponent(new Label("Brak recept."));
 			return;
@@ -445,7 +450,9 @@ public class ButtonListener implements Button.Listener
 						imie=b.getImie();
 						nazwisko=b.getNazwisko();
 					}
+					
 				}
+				
 				System.out.println("W wyswietl_recepty(window, filtr) - przed warunkiem");
 			table.getTableModel().addRow(a.getPesel_pacjenta(),imie,
 					nazwisko, a.getData().toString(), a.getOpis());
@@ -605,20 +612,6 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskLekarz == true && spr == tru
 							   
 						   C.removeLekarz(table.getSelectedRow());
 						   ///Usuwanie wizyt tego lekarza, skoro jego nie ma w bazie
-						   for(Wizyta W: C.getWizyty())
-						   {
-							   
-						   }
-						   //Usuwanie Skierowań lekarza (jak wyżej)
-						   for(Skierowanie S: C.getSkierowania())
-						   {
-							   
-						   }
-						   //Usuwanie recept
-						   for(Recepta R: C.getRecepty())
-						   {
-							   
-						   }
 						   window.setFocusedInteractable(Pacjent);
 						   window.close();
 						   
@@ -1465,8 +1458,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		mainpanel.addComponent(new EmptySpace());
 		// Ulica
 		mainpanel.addComponent(new Label("Ulica"));
-		TextBox TextUlica = new TextBox().setPreferredSize(new TerminalSize(12, 1))
-				.setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
+		TextBox TextUlica = new TextBox().setPreferredSize(new TerminalSize(12, 1));
 		mainpanel.addComponent(TextUlica);
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
@@ -1484,10 +1476,9 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		mainpanel.addComponent(TextNumerMieszkania);
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
-		// Miejscowoœæ
+		// Miejscowość
 		mainpanel.addComponent(new Label("Miejscowość"));
-		TextBox TextMiejscowosc = new TextBox().setPreferredSize(new TerminalSize(12, 1))
-				.setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
+		TextBox TextMiejscowosc = new TextBox().setPreferredSize(new TerminalSize(12, 1));
 		mainpanel.addComponent(TextMiejscowosc);
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
@@ -1503,6 +1494,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 					return;
 					
 				}
+				
 				for (Pacjent P : C.getPacjenci()) {
 
 					if (TextPesel.getText().equals(P.getPesel())) {
@@ -1512,6 +1504,12 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 					}
 				}
 				check = 5;
+	            try {
+					terminal.bell();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				C.addPacjent(new Pacjent(TextPesel.getText(), TextImie.getText(), TextNazwisko.getText(), Integer.parseInt(TextWiek.getText()), TextUlica.getText(),
 						Integer.parseInt(TextNumerDomu.getText()), Integer.parseInt(TextNumerMieszkania.getText()), TextMiejscowosc.getText()));
 				
@@ -1526,15 +1524,12 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
     	});
 
         mainpanel.addComponent(button1);
-		//mainpanel.addComponent(new EmptySpace(new TerminalSize(0,0)));
         mainpanel.addComponent(button);
 
     	window.setHints(Arrays.asList(Window.Hint.CENTERED));
         window.setComponent(mainpanel);
         window.setCloseWindowWithEscape(true);
-        //window1.removeWindowListener(listener1);
-        //window1.removeWindowListener(listener);
-        // Create gui and start gui
+
         gui.addWindowAndWait(window);
 	}
 	//////////////////////////////////////////////////////////////DODAJ LEKARZA//////////////////////////////////////////////////////////////
@@ -1590,7 +1585,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		// Telefon
 		mainpanel.addComponent(new Label("Telefon"));
 		TextBox TextTelefon = new TextBox().setPreferredSize(new TerminalSize(12, 1))
-				.setValidationPattern(Pattern.compile("([0-9]){0,11}"));
+				.setValidationPattern(Pattern.compile("([0-9]){0,9}"));
 		mainpanel.addComponent(TextTelefon);
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
@@ -1612,6 +1607,18 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 					.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
 					return;
 				}
+				if(Integer.parseInt(TextWiek.getText()) < 18 || Integer.parseInt(TextWiek.getText()) > 80)
+				{
+					new MessageDialogBuilder().setTitle("Error").setText("Zły wiek.")
+					.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+					return;
+				}
+				if(TextTelefon.getText().length() < 9)
+				{
+					new MessageDialogBuilder().setTitle("Error").setText("Telefon za krótki.")
+					.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
+					return;
+				}
 				for (Lekarz L : C.getLekarze()) {
 
 					if (TextLogin.getText().equals(L.getLogin())) {
@@ -1621,6 +1628,12 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 					}
 				}
 				check = 8;
+	            try {
+					terminal.bell();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				C.addLekarz(new Lekarz(TextLogin.getText(), TextHaslo.getText(), TextImie.getText(), TextNazwisko.getText(), Integer.parseInt(TextWiek.getText()),
 						Integer.parseInt(TextNumerSali.getText()), TextTelefon.getText()));
 				
@@ -1633,11 +1646,8 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
     			window.close();
     		}
     	});
-
         mainpanel.addComponent(button1);
-		//mainpanel.addComponent(new EmptySpace(new TerminalSize(0,0)));
         mainpanel.addComponent(button);
-
     	window.setHints(Arrays.asList(Window.Hint.CENTERED));
         window.setComponent(mainpanel);
         window.setCloseWindowWithEscape(true);
@@ -1647,25 +1657,22 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 	////////////////////////////////////////////Dodaj wizyte//////////////////////////////////////////////////////////
 	public void Dodaj_wizyte()
 	{
-
 		BasicWindow window = new BasicWindow("Dodaj wizyte");
 		Panel mainpanel = new Panel(new GridLayout(2));
-		//mainpanel.setPreferredSize(new TerminalSize(40, 10));
 		//Lekarz
 		mainpanel.addComponent(new Label("ID lekarza"));
 		ComboBox<String> listaLekarzy = new ComboBox<String>().setReadOnly(false)
-				.setPreferredSize(new TerminalSize(21, 1));
+				.setPreferredSize(new TerminalSize(40, 3));
 		for (Lekarz L : C.getLekarze()) {
 			listaLekarzy.addItem(L.getId() + " : "+L.getImie() +" "+ L.getNazwisko());
 		}
 		mainpanel.addComponent(listaLekarzy);
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
-		//
 		//Pacjent
 		mainpanel.addComponent(new Label("Pacjent"));
 		ComboBox<String> listaPacjentow = new ComboBox<String>().setReadOnly(false)
-				.setPreferredSize(new TerminalSize(21, 1));
+				.setPreferredSize(new TerminalSize(40, 3));
 		for (Pacjent P: C.getPacjenci()) {
 			listaPacjentow.addItem(P.getPesel()+ " : "+P.getImie() +" "+ P.getNazwisko());
 		}
@@ -1682,7 +1689,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		
 		//Opis
 		mainpanel.addComponent(new Label("Opis"));
-		TextBox TextOpis = new TextBox().setPreferredSize(new TerminalSize(21, 3));
+		TextBox TextOpis = new TextBox().setPreferredSize(new TerminalSize(40, 3));
 		mainpanel.addComponent(TextOpis);
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
@@ -1694,27 +1701,21 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 					{
 						new MessageDialogBuilder().setTitle("Error").setText("Uzupelnij dane.")
 						.addButton(MessageDialogButton.Close).build().showDialog(gui);
+						return;
 					}
 					SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 					Date Data = null;
-					
 					try {
 						Data = formatter.parse(TextData.getText());
 						String wyraz = listaPacjentow.getSelectedItem();
 						String wyr[] = wyraz.split(" ", 2);
-						check = 6;
+						check = 6;		           
 						C.addWizyta(new Wizyta(listaLekarzy.getSelectedIndex(), wyr[0], TextOpis.getText(), TextData.getText()));
-						try {
-							screen.refresh(RefreshType.COMPLETE);
-							
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
 						
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						new MessageDialogBuilder().setTitle("Error").setText("Źle podana data.")
+						.addButton(MessageDialogButton.Close).build().showDialog(gui);
+						return;
 					}
 					
 					
@@ -1907,7 +1908,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		Panel menu = new Panel().setPreferredSize(new TerminalSize(175, 1));
 		menu.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
 		container = new Panel().setPreferredSize(new TerminalSize(175, 12));
-		mainPanel.addComponent(menu.withBorder(Borders.singleLine("Katalogi")));
+		mainPanel.addComponent(menu.withBorder(Borders.doubleLineReverseBevel("Katalogi")));
 		
 		//Panel base1Panel = new Panel().setPreferredSize(new TerminalSize(175, 3));
 		//ActionListBox actionListBox = new ActionListBox();
@@ -2025,11 +2026,11 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 
 		//Panel base1Panel1 = new Panel().setPreferredSize(new TerminalSize(175, 1));
 
-		mainPanel.addComponent(container.withBorder(Borders.singleLine("Informacje")));
+		mainPanel.addComponent(container.withBorder(Borders.doubleLineBevel("Informacje")));
 		base1Panel1 = new Panel().setPreferredSize(new TerminalSize(175, 1));
 		base1Panel1.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
 
-		mainPanel.addComponent(base1Panel1.withBorder(Borders.singleLine("Skróty")));
+		mainPanel.addComponent(base1Panel1.withBorder(Borders.doubleLineReverseBevel("Skróty")));
 		//
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F6: Dodaj"));
@@ -2039,12 +2040,6 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		base1Panel1.addComponent(new Label("F8: Edytuj"));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F11: Wyloguj"));
-		
-		//base1Panel1.addComponent(new EmptySpace(new TerminalSize(3,0)));
-		//window.setComponent(mainPanel);
-
-		//base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
-		//window.setComponent(mainPanel);
 
 		window.setHints(Arrays.asList(Window.Hint.FIT_TERMINAL_WINDOW, Window.Hint.EXPANDED));
 		window.setComponent(mainPanel);
