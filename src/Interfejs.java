@@ -266,6 +266,15 @@ public class Interfejs {
 		table.setVisibleColumns(30);
 		table.setVisibleRows(11);
 		int j = 0 ;
+		table.setSelectAction(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				return;
+				
+			}
+		});
 		if(C.getPacjenci().isEmpty())
 		{
 			container.addComponent(new Label("Brak pacjentów."));
@@ -302,6 +311,15 @@ public class Interfejs {
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F11: Wyloguj"));
 		table = new Table<String>("ID ","Login", "Haslo", "Imie", "Nazwisko", "Wiek", "Numer sali", "Telefon");
+		table.setSelectAction(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				return;
+				
+			}
+		});
 		int j = 0;
 		table.setVisibleColumns(175);
 		table.setVisibleRows(10);
@@ -331,6 +349,7 @@ public class Interfejs {
 	
 	void wyswietl_wizyty(Window window,String filtr) {
 		Wizyty.onEnterFocus(null, null);
+		System.out.println("Jstesm w wizycie");
 		base1Panel1.removeAllComponents();
 		//Panel base1Panel1 = new Panel().setPreferredSize(new TerminalSize(175, 1));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
@@ -342,6 +361,15 @@ public class Interfejs {
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F11: Wyloguj"));
 		table = new Table<String>("Pesel", "Imie lekarza", "Nazwisko lekarza", "Data", "Opis");
+		table.setSelectAction(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				return;
+				
+			}
+		});
 		int j = 0;
 		table.setVisibleColumns(175);
 		table.setVisibleRows(10);
@@ -376,7 +404,16 @@ public class Interfejs {
 		int j = 0;
 		table.setVisibleColumns(7);
 		table.setVisibleRows(10);
-		if(C.getLekarze().isEmpty())
+		table.setSelectAction(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				return;
+				
+			}
+		});
+		if (C.getLekarze().isEmpty())
 		{
 			container.addComponent(new Label("Brak skierowań."));
 			return;
@@ -407,6 +444,15 @@ public class Interfejs {
 
 		table.setVisibleColumns(7);
 		table.setVisibleRows(10);
+		table.setSelectAction(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				return;
+				
+			}
+		});
 		if(C.getLekarze().isEmpty())
 		{
 			container.addComponent(new Label("Brak recept."));
@@ -573,6 +619,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskLekarz == true && spr == tru
 							   
 						   C.removeLekarz(table.getSelectedRow());
 						   window.setFocusedInteractable(Pacjent);
+						   window.close();
 						   
 							}
 							catch (IndexOutOfBoundsException I2)
@@ -645,6 +692,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 							   
 						   C.removePacjent(table.getSelectedRow());
 						   window.setFocusedInteractable(Pacjent);
+						   window.close();
 						   
 							}
 							catch (IndexOutOfBoundsException I2)
@@ -675,7 +723,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				gui.addWindowAndWait(window);
 					}
 			
-if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getWizyty().size()) {
+		if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getWizyty().size()) {
 					
 					BasicWindow window = new BasicWindow();
 					// Create panel to hold components
@@ -851,6 +899,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == tru
 								P.setNr_domu(Integer.parseInt(TextNumerDomu.getText()));
 								P.setNr_mieszkania(Integer.parseInt(TextNumerMieszkania.getText()));
 								P.setUlica(TextUlica.getText());
+								window.close();
 							}
 							
 						  }
@@ -970,6 +1019,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskWizyty == true && spr == tru
 								L.setHaslo(TextHaslo.getText());
 								L.setSala(Integer.parseInt(TextSala.getText()));
 								L.setTelefon(TextTelefon.getText());
+								window.close();
 							}
 							
 						  }
