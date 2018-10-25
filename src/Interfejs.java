@@ -2046,7 +2046,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		terminal.flush();
 
         gui.addWindowAndWait(window);
-
+///
 
 
 	}
