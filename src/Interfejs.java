@@ -140,7 +140,7 @@ public class Interfejs {
 								.addButton(MessageDialogButton.Close).build().showDialog(gui);
 					}
 					if (C.Logowanie(login.getText(), haslo.getText()).equals("admin"))
-						Menu_rejestracja();
+						Okno_glowne(true);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -172,52 +172,9 @@ public class Interfejs {
 		gui.addWindowAndWait(window);
 
 	}
-
-	public void Menu_rejestracja() throws IOException {
-		//Vscreen.clear();
-		gui = new MultiWindowTextGUI(Vscreen);
-
-		new ActionListDialogBuilder().setTitle("Menu rejestracji").setDescription("Wybierz opcje")
-				.addAction("Zarządzanie pacjentami", new Runnable() {
-					@Override
-					public void run() {
-						try {
-							Okno_glowne_centrala();
-							//Vscreen.close();
-							gui.updateScreen();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}).addAction("Zarzadzanie lekarzami", new Runnable() {
-					@Override
-					public void run() {
-						// Do 2nd thing...
-					}
-				}).addAction("Wyloguj", new Runnable() {
-					@Override
-					public void run() {
-						try {
-							Logowanie();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}).addAction("Zamknij", new Runnable() {
-					@Override
-					public void run() {
-						try {
-							terminal.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}).build().showDialog(gui);
-	}
-	public class ButtonListener implements Button.Listener
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+public class ButtonListener implements Button.Listener
 	{
 
 		@Override
@@ -490,6 +447,7 @@ public class Interfejs {
 			//Dla dodawania informacji//
 			if(keyStroke.getKeyType() == KeyType.F11)
 			{
+				
 				BasicWindow window = new BasicWindow();
 				// Create panel to hold components
 				Panel mainpanel = new Panel();
@@ -506,8 +464,8 @@ public class Interfejs {
 					@Override
 					public void run() {
 						try {
-							
-								Menu_rejestracja();
+							gui = new MultiWindowTextGUI(Vscreen);
+							Logowanie();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -602,7 +560,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskLekarz == true && spr == tru
 								System.out.println("XD LUL");
 							}
 							try {
-								Okno_glowne_centrala();
+								Okno_glowne(true);
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -675,7 +633,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 								System.out.println("XD LUL");
 							}
 							try {
-								Okno_glowne_centrala();
+								Okno_glowne(true);
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -749,7 +707,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 									System.out.println("XD LUL");
 								}
 								try {
-									Okno_glowne_centrala();
+									Okno_glowne(true);
 								} catch (IOException e1) {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
@@ -1879,7 +1837,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		        gui.addWindowAndWait(window);
 	}
 	*/
-	public void Okno_glowne_centrala() throws IOException {
+	public void Okno_glowne(boolean decision) throws IOException {
 		System.out.println("okno glowne");
 		window = new BasicWindow();
 		Panel mainPanel = new Panel();
