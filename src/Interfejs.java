@@ -416,11 +416,21 @@ public class ButtonListener implements Button.Listener
 			return;
 		}
 		int j = 0;
+		
 		for (Recepta a : C.getRecepty()) {
+			String imie = null;
+			String nazwisko = null;
 			if(a.getPesel_pacjenta().startsWith(filtr)) {
+				
+				for(Lekarz b:C.getLekarze()) {
+					if(b.getId()==a.getId_lekarza()) {
+						imie=b.getImie();
+						nazwisko=b.getNazwisko();
+					}
+				}
 				System.out.println("W wyswietl_recepty(window, filtr) - przed warunkiem");
-			table.getTableModel().addRow(a.getPesel_pacjenta(), C.getLekarze().get(a.getId_lekarza()).getImie(),
-					C.getLekarze().get(a.getId_lekarza()).getNazwisko(), a.getData().toString(), a.getOpis());
+			table.getTableModel().addRow(a.getPesel_pacjenta(),imie,
+					nazwisko, a.getData().toString(), a.getOpis());
 			j ++;
 			}
 		}

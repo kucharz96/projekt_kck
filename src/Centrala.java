@@ -71,9 +71,9 @@ public class Centrala {
 		lekarze.add(e);
 	}
 	public void removeLekarz(int index) {
-			int i=-1;
+		
+			int i =0;
 			
-			lekarze.remove(index);
 			if(!recepty.isEmpty())
 			{
 			for(Recepta R: recepty)
@@ -87,6 +87,7 @@ public class Centrala {
 				i++;
 			}
 		}
+			lekarze.remove(index);
 	}
 	public void addPacjent(Pacjent e) {
 		pacjenci.add(e);
