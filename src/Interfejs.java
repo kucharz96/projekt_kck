@@ -332,8 +332,11 @@ public class ButtonListener implements Button.Listener
 		for (Wizyta a : C.getWizyty()) {
 			String imie = null;
 			String nazwisko = null;
-			if(zalogowany.getId() != a.getId_lekarza())
-				continue;
+			if(zalogowany != null)
+			{
+				if(zalogowany.getId() != a.getId_lekarza())
+					continue;
+			}
 			if(a.getPesel_pacjenta().startsWith(filtr)) {
 				
 				for(Lekarz b:C.getLekarze()) {
@@ -393,8 +396,11 @@ public class ButtonListener implements Button.Listener
 		for (Skierowanie a : C.getSkierowania()) {
 			String imie = null;
 			String nazwisko = null;
-			if(zalogowany.getId() != a.getId_lekarza())
-				continue;
+			if(zalogowany != null)
+			{
+				if(zalogowany.getId() != a.getId_lekarza())
+					continue;
+			}
 			if(a.getPesel_pacjenta().startsWith(filtr)) {
 				
 				for(Lekarz b:C.getLekarze()) {
@@ -454,8 +460,11 @@ public class ButtonListener implements Button.Listener
 		for (Recepta a : C.getRecepty()) {
 			String imie = null;
 			String nazwisko = null;
-			if(zalogowany.getId() != a.getId_lekarza())
-				continue;
+			if(zalogowany != null)
+			{
+				if(zalogowany.getId() != a.getId_lekarza())
+					continue;
+			}
 			if(a.getPesel_pacjenta().startsWith(filtr)) {
 				
 				for(Lekarz b:C.getLekarze()) {
@@ -555,7 +564,7 @@ public class ButtonListener implements Button.Listener
 				// Create gui and start gui
 				gui.addWindowAndWait(window);
 			}
-if(keyStroke.getKeyType() == KeyType.F6 && przyciskPacjent == true && spr == true && zalogowany == null)
+			if(keyStroke.getKeyType() == KeyType.F6 && przyciskPacjent == true && spr == true && zalogowany == null)
 	    	{
 	    		Dodaj_pacjenta();
 	    		
@@ -572,16 +581,16 @@ if(keyStroke.getKeyType() == KeyType.F6 && przyciskPacjent == true && spr == tru
 			
 			}
 			
-if(keyStroke.getKeyType() == KeyType.F6 && przyciskWizyty == true && spr == true && zalogowany == null)
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskWizyty == true && spr == true && zalogowany == null)
 	    	{
 	    		Dodaj_wizyte();
 			}
-if(keyStroke.getKeyType() == KeyType.F6 && przyciskLekarz == true && spr == true)
-{
-	Dodaj_lekarza();
-	
-}
-if (keyStroke.getKeyType() == KeyType.F7 && przyciskLekarz == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getLekarze().size())
+	    	if(keyStroke.getKeyType() == KeyType.F6 && przyciskLekarz == true && spr == true)
+			{
+				Dodaj_lekarza();
+				
+			}
+	    	if (keyStroke.getKeyType() == KeyType.F7 && przyciskLekarz == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getLekarze().size())
 			{
 				
 				BasicWindow window = new BasicWindow();
@@ -626,7 +635,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskLekarz == true && spr == tru
 							   
 						   C.removeLekarz(table.getSelectedRow());
 						   ///Usuwanie wizyt tego lekarza, skoro jego nie ma w bazie
-						   window.setFocusedInteractable(Pacjent);
+						   window.setFocusedInteractable(Lekarz);
 						   window.close();
 						   
 							}
@@ -1019,7 +1028,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 							}
 							else
 							{
-								check = 7;
+								check = 9;
 								L.setLogin(TextLogin.getText());
 								L.setImie(TextImie.getText());
 								L.setNazwisko(TextNazwisko.getText());
@@ -1052,10 +1061,9 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 
 	    	}
 
-			
+			//////////////////////////////////EDYCJA SKIEROWANIA PRZEZ LEKARZA///////////////////////////////////////
 			if(keyStroke.getKeyType() == KeyType.F8 && przyciskSkierowania == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getPacjenci().size()&& zalogowany != null)
 			{
-				final TextBox.Style MULTI_LINE;
 				List<String> data = table.getTableModel().getRow(table.getSelectedRow());
 				for(int i = 0; i < data.size(); i++) {
 				    System.out.println(data.get(i));
@@ -1063,11 +1071,8 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				BasicWindow window = new BasicWindow("Edytuj skierowanie");
 				Panel mainpanel = new Panel(new GridLayout(2));
 				mainpanel.addComponent(new Label("ID lekarza"));
-				ComboBox<String> listaLekarzy = new ComboBox<String>().setReadOnly(true)
-						.setPreferredSize(new TerminalSize(30, 1));
-				for (Lekarz L : C.getLekarze()) {
-					listaLekarzy.addItem(L.getId()+" : "+L.getImie() +" "+ L.getNazwisko());
-				}
+				TextBox listaLekarzy = new TextBox().setReadOnly(true).setPreferredSize(new TerminalSize(20, 1));
+				listaLekarzy.setText(zalogowany.getId()+" : "+zalogowany.getImie() +" "+ zalogowany.getNazwisko());
 				mainpanel.addComponent(listaLekarzy);
 				mainpanel.addComponent(new EmptySpace());
 				mainpanel.addComponent(new EmptySpace());
@@ -1107,13 +1112,15 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 						
 						else
 						{
+							check = 10;
 							Skierowanie S =	C.getSkierowania().get(table.getSelectedRow());
 							String wyraz = listaPacjentow.getSelectedItem();
-							String wyraz2 = listaLekarzy.getSelectedItem();
+							String wyraz2 = listaLekarzy.getText();
 							String wyr[] = wyraz.split(" ", 2);
 							String wyr2[] = wyraz2.split(" ", 2);
 							S.setId_lekarza(Integer.parseInt(wyr2[0]));
 							S.setPesel_pacjenta(wyr[0]);
+							S.setCel(TextCel.getText());
 							S.setOpis(TextOpis.getText());
 							
 						}
@@ -1136,7 +1143,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				
 			}
 			
-
+			/////////////////////////edycja wizyty przez centrale////////////////////////////////////////////////
 	    	if(keyStroke.getKeyType() == KeyType.F8 && przyciskWizyty == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getPacjenci().size()&& zalogowany == null)
 	    	{
 	    		List<String> data = table.getTableModel().getRow(table.getSelectedRow());
@@ -1240,7 +1247,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		        window.setCloseWindowWithEscape(true);
 		        gui.addWindowAndWait(window);
 	    	}
-	   
+	    	//edycja recepty?/////////////////////////////////////////////////////
 	    	if(keyStroke.getKeyType() == KeyType.F8 && przyciskRecepty == true && spr == true && table.isFocused()==true && table.getSelectedRow() != C.getPacjenci().size() && zalogowany != null)
 	    	{
 	    		List<String> data = table.getTableModel().getRow(table.getSelectedRow());
@@ -1252,11 +1259,8 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				mainpanel.setPreferredSize(new TerminalSize(40, 10));
 				mainpanel.addComponent(new Label("ID lekarza"));
 				// mainpanel.addComponent(new EmptySpace());
-				ComboBox<String> listaLekarzy = new ComboBox<String>().setReadOnly(true)
-						.setPreferredSize(new TerminalSize(20, 1));
-				for (Lekarz L : C.getLekarze()) {
-					listaLekarzy.addItem(L.getId()+" : "+L.getImie() +" "+ L.getNazwisko());
-				}
+				TextBox listaLekarzy = new TextBox().setReadOnly(true).setPreferredSize(new TerminalSize(20, 1));
+				listaLekarzy.setText(zalogowany.getId()+" : "+zalogowany.getImie() +" "+ zalogowany.getNazwisko());
 				mainpanel.addComponent(listaLekarzy);
 				mainpanel.addComponent(new EmptySpace());
 				mainpanel.addComponent(new EmptySpace());
@@ -1290,12 +1294,13 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 						{
 							Recepta R =	C.getRecepty().get(table.getSelectedRow());
 							String wyraz = listaPacjentow.getSelectedItem();
-							String wyraz2 = listaLekarzy.getSelectedItem();
+							String wyraz2 = listaLekarzy.getText();
 							String wyr[] = wyraz.split(" ", 2);
 							String wyr2[] = wyraz2.split(" ", 2);
 							R.setId_lekarza(Integer.parseInt(wyr2[0]));
 							R.setPesel_pacjenta(wyr[0]);
 							R.setOpis(TextOpis.getText());
+							check = 7;
 							
 						}
 				
@@ -1400,9 +1405,9 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 			if(check == 7)
 			{
 				container.removeAllComponents();
-				window.setFocusedInteractable(Wizyty);
+				window.setFocusedInteractable(Recepty);
 				System.out.println("check 7");
-				wyswietl_lekarzy(window, "");
+				wyswietl_recepty(window, "");
 			}
 			if(check == 9)
 			{
@@ -1410,6 +1415,13 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				window.setFocusedInteractable(Lekarz);
 				System.out.println("check 7");
 				wyswietl_lekarzy(window, "");
+			}
+			if(check == 10)
+			{
+				container.removeAllComponents();
+				window.setFocusedInteractable(Skierowania);
+				System.out.println("check 7");
+				wyswietl_skierowania(window, "");
 			}
 			
 			
@@ -1650,8 +1662,8 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		mainpanel.addComponent(new Label("ID lekarza"));
 		ComboBox<String> listaLekarzy = new ComboBox<String>().setReadOnly(false)
 				.setPreferredSize(new TerminalSize(40, 3));
-		for (Lekarz L : C.getLekarze()) {
-			listaLekarzy.addItem(L.getId() + " : "+L.getImie() +" "+ L.getNazwisko());
+		for (Lekarz P: C.getLekarze()) {
+			listaLekarzy.addItem(P.getId()+ " : "+P.getImie() +" "+ P.getNazwisko());
 		}
 		mainpanel.addComponent(listaLekarzy);
 		mainpanel.addComponent(new EmptySpace());
@@ -1696,8 +1708,10 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 						Data = formatter.parse(TextData.getText());
 						String wyraz = listaPacjentow.getSelectedItem();
 						String wyr[] = wyraz.split(" ", 2);
+						String wyraz1 = listaLekarzy.getText();
+						String wyr1[] = wyraz1.split(" ", 2);
 						check = 6;		           
-						C.addWizyta(new Wizyta(listaLekarzy.getSelectedIndex(), wyr[0], TextOpis.getText(), TextData.getText()));
+						C.addWizyta(new Wizyta(Integer.parseInt(wyr1[0]), wyr[0], TextOpis.getText(), TextData.getText()));
 						
 					} catch (ParseException e) {
 						new MessageDialogBuilder().setTitle("Error").setText("Źle podana data.")
@@ -1733,11 +1747,8 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				mainpanel.setPreferredSize(new TerminalSize(40, 10));
 				mainpanel.addComponent(new Label("ID lekarza"));
 				// mainpanel.addComponent(new EmptySpace());
-				ComboBox<String> listaLekarzy = new ComboBox<String>().setReadOnly(true)
-						.setPreferredSize(new TerminalSize(20, 1));
-				for (Lekarz L : C.getLekarze()) {
-					listaLekarzy.addItem(L.getId()+" : "+L.getImie() +" "+ L.getNazwisko());
-				}
+				TextBox listaLekarzy = new TextBox().setReadOnly(true).setPreferredSize(new TerminalSize(20, 1));
+				listaLekarzy.setText(zalogowany.getId()+" : "+zalogowany.getImie() +" "+ zalogowany.getNazwisko());
 				mainpanel.addComponent(listaLekarzy);
 				mainpanel.addComponent(new EmptySpace());
 				mainpanel.addComponent(new EmptySpace());
@@ -1767,11 +1778,13 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 							.addButton(MessageDialogButton.Close).build().showDialog(gui);
 						}
 						else{
-							check = 5;
+							check = 7;
 							System.out.println("Dodanie recepty");
 							String wyraz = listaPacjentow.getSelectedItem();
 							String wyr[] = wyraz.split(" ", 2);
-							C.addRecepta(new Recepta(listaLekarzy.getSelectedIndex(), wyr[0], TextOpis.getText()));	
+							String wyraz1 = listaLekarzy.getText();
+							String wyr1[] = wyraz1.split(" ", 2);
+							C.addRecepta(new Recepta(Integer.parseInt(wyr1[0]), wyr[0], TextOpis.getText()));	
 							
 							
 						}
@@ -1802,11 +1815,8 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				BasicWindow window = new BasicWindow("Dodaj skierowanie");
 				Panel mainpanel = new Panel(new GridLayout(2));
 				mainpanel.addComponent(new Label("ID lekarza"));
-				ComboBox<String> listaLekarzy = new ComboBox<String>().setReadOnly(true)
-						.setPreferredSize(new TerminalSize(30, 1));
-				for (Lekarz L : C.getLekarze()) {
-					listaLekarzy.addItem(L.getId()+" : "+L.getImie() +" "+ L.getNazwisko());
-				}
+				TextBox listaLekarzy = new TextBox().setReadOnly(true).setPreferredSize(new TerminalSize(40, 1));
+				listaLekarzy.setText((zalogowany.getId() + " : "+zalogowany.getImie() +" "+ zalogowany.getNazwisko()));
 				mainpanel.addComponent(listaLekarzy);
 				mainpanel.addComponent(new EmptySpace());
 				mainpanel.addComponent(new EmptySpace());
@@ -1845,8 +1855,11 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 						else
 						{
 							String wyraz = listaPacjentow.getSelectedItem();
-							String wyr1[] = wyraz.split(" ", 2);
-							C.addSkierowanie(new Skierowanie(listaLekarzy.getSelectedIndex(), wyr1[0], TextCel.getText(), TextOpis.getText()));
+							String wyr[] = wyraz.split(" ", 2);
+							String wyraz1 = listaLekarzy.getText();
+							String wyr1[] = wyraz1.split(" ", 2);
+							check = 10;
+							C.addSkierowanie(new Skierowanie(Integer.parseInt(wyr1[0]), wyr[0], TextCel.getText(), TextOpis.getText()));
 						}
 					}
 		    	});
@@ -1870,6 +1883,23 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		System.out.println("okno glowne");
 		window = new BasicWindow();
 		Panel mainPanel = new Panel();
+		if(zalogowany != null)
+		{
+			Panel upPanel = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
+			upPanel.addComponent(new EmptySpace());
+			upPanel.withBorder(Borders.singleLineBevel());
+			upPanel.setSize(new TerminalSize(175, 2)).addComponent(new Label("Witaj "+ zalogowany.getImie() + " "+ zalogowany.getNazwisko()+". Centrala Cię widzi!"));
+			mainPanel.addComponent(upPanel);
+		}
+		else
+		{
+			Panel upPanel = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
+			upPanel.withBorder(Borders.singleLineBevel());
+			upPanel.addComponent(new EmptySpace());
+			upPanel.setSize(new TerminalSize(175, 1)).addComponent(new Label("Witaj Centralo"));
+			mainPanel.addComponent(upPanel);
+		}
+
 		final WindowBasedTextGUI textGUI = new MultiWindowTextGUI(Vscreen);
 		//KeyStroke keyStroke = terminal.pollInput();
         
@@ -1906,11 +1936,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 			public void run() {
 
 				window.addWindowListener(listener0);
-				//window.addWindowListener(listener1);
-				//window.removeWindowListener(listener2);
-				//window.removeWindowListener(listener3);
-				//window.removeWindowListener(listener4);
-				table = new Table<String>("Pesel","Imie","Nazwisko","Wiek", "Ulica", "Numer domu", "Numer mieszkania", "Miejscowoœæ");
+				table = new Table<String>("Pesel","Imie","Nazwisko","Wiek", "Ulica", "Numer domu", "Numer mieszkania", "Miejscowość");
 
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
@@ -1928,11 +1954,6 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 			@Override
 			public void run() {
 				window.addWindowListener(listener0);
-				//window.removeWindowListener(listener1);
-				//window.addWindowListener(listener2);
-				//window.removeWindowListener(listener3);
-				//window.removeWindowListener(listener4);
-				//window.addWindowListener(listener);
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
 				check = 2;
@@ -1943,11 +1964,6 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 
 			public void run() {
 				window.addWindowListener(listener0);
-				//window.removeWindowListener(listener1);
-				//window.removeWindowListener(listener2);
-				//window.addWindowListener(listener3);
-				//window.removeWindowListener(listener4);
-				//window.addWindowListener(listener);
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
 				check = 3;
@@ -1961,11 +1977,6 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 			@Override
 			public void run() {
 				window.addWindowListener(listener0);
-				//window.removeWindowListener(listener1);
-				//window.removeWindowListener(listener2);
-				//window.removeWindowListener(listener3);
-				//window.addWindowListener(listener4);
-				//window.addWindowListener(listener);
 				wyszukiwarka1.setEnabled(true);
 				window.setFocusedInteractable(wyszukiwarka1);
 				check = 4;
