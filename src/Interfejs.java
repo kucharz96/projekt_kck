@@ -104,7 +104,7 @@ public class Interfejs {
 		panel.addComponent(new EmptySpace(new TerminalSize(0, 2)));
 		TextBox haslo = new TextBox().setMask('*');
 
-		panel.addComponent(new Label("HasÅ‚o"));
+		panel.addComponent(new Label("Has³o"));
 		panel.addComponent(new EmptySpace(new TerminalSize(0, 0)));
 
 		panel.addComponent(haslo);
@@ -115,7 +115,7 @@ public class Interfejs {
 			public void run() {
 				try {
 					if (C.Logowanie(login.getText(), haslo.getText()).equals("")) {
-						new MessageDialogBuilder().setTitle("BÅ‚Ä…d logowania").setText("NieprawidÂ³owe hasÂ³o lub login")
+						new MessageDialogBuilder().setTitle("B³¹d logowania").setText("Nieprawid³owe has³o lub login")
 
 								.addButton(MessageDialogButton.Close).build().showDialog(gui);
 					}else
@@ -197,7 +197,7 @@ public class ButtonListener implements Button.Listener
 
 	public void wyswietl_pacjentow(Window window, String filtr) {
 		table = new Table<String>("Pesel", "Imie", "Nazwisko", "Wiek", "Ulica", "Numer domu", "Numer mieszkania",
-				"MiejscowoÅ›Ä‡");
+				"Miejscowoœæ");
 		//base1Panel1 = new Panel().setPreferredSize(new TerminalSize(175, 1));
 
 		Pacjent.onEnterFocus(null, null);
@@ -206,7 +206,7 @@ public class ButtonListener implements Button.Listener
 			base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 			base1Panel1.addComponent(new Label("F6: Dodaj"));
 			base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
-			base1Panel1.addComponent(new Label("F7: UsuÃ±"));
+			base1Panel1.addComponent(new Label("F7: Usuñ"));
 			base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 			base1Panel1.addComponent(new Label("F8: Edytuj"));
 		}
@@ -226,7 +226,7 @@ public class ButtonListener implements Button.Listener
 		});
 		if(C.getPacjenci().isEmpty())
 		{
-			container.addComponent(new Label("Brak pacjentÃ³w."));
+			container.addComponent(new Label("Brak pacjentów."));
 			return;
 		}
 	for (Pacjent a : C.getPacjenci()) {
@@ -254,7 +254,7 @@ public class ButtonListener implements Button.Listener
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F6: Dodaj"));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
-		base1Panel1.addComponent(new Label("F7: UsuÃ±"));
+		base1Panel1.addComponent(new Label("F7: Usuñ"));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 		base1Panel1.addComponent(new Label("F8: Edytuj"));
 		base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
@@ -298,14 +298,14 @@ public class ButtonListener implements Button.Listener
 	
 	void wyswietl_wizyty(Window window,String filtr) {
 		Wizyty.onEnterFocus(null, null);
-		System.out.println("Jstesm w wizycie");
+		System.out.println("Jestem w wizycie");
 		base1Panel1.removeAllComponents();
 		//Panel base1Panel1 = new Panel().setPreferredSize(new TerminalSize(175, 1));
 		if(zalogowany == null) {
 			base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 			base1Panel1.addComponent(new Label("F6: Dodaj"));
 			base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
-			base1Panel1.addComponent(new Label("F7: UsuÃ±"));
+			base1Panel1.addComponent(new Label("F7: Usuñ"));
 			base1Panel1.addComponent(new EmptySpace(new TerminalSize(3, 0)));
 			base1Panel1.addComponent(new Label("F8: Edytuj"));
 		}
@@ -390,7 +390,7 @@ public class ButtonListener implements Button.Listener
 		});
 		if (C.getLekarze().isEmpty() || C.getSkierowania().isEmpty())
 		{
-			container.addComponent(new Label("Brak skierowaÅ„."));
+			container.addComponent(new Label("Brak skierowañ"));
 			return;
 		}
 		for (Skierowanie a : C.getSkierowania()) {
@@ -509,7 +509,7 @@ public class ButtonListener implements Button.Listener
 				// Create panel to hold components
 				Panel mainpanel = new Panel();
 				Panel panel_tmp = new Panel();
-				mainpanel.addComponent(panel_tmp.withBorder(Borders.singleLine("Co zrobiÄ‡?")));
+				mainpanel.addComponent(panel_tmp.withBorder(Borders.singleLine("Co zrobiæ?")));
 				Panel panel = new Panel();
 				panel_tmp.addComponent(new EmptySpace(new TerminalSize(1, 1)));
 
@@ -530,7 +530,7 @@ public class ButtonListener implements Button.Listener
 						}
 					}
 				});
-				Button button1 = new Button("NARA", new Runnable() {
+				Button button1 = new Button("Wyjdz", new Runnable() {
 					@Override
 					public void run() {
 						try {
@@ -541,7 +541,7 @@ public class ButtonListener implements Button.Listener
 						}
 					}
 				});
-				Button button2 = new Button("NIC", new Runnable() {
+				Button button2 = new Button("Anuluj", new Runnable() {
 					@Override
 					public void run() {
 						window.close();
@@ -601,7 +601,7 @@ public class ButtonListener implements Button.Listener
 				Panel panel = new Panel();
 				panel_tmp.addComponent(panel);
 				panel.setLayoutManager(new GridLayout(2));
-				panel.addComponent(new Label("Czy na pewno chcesz usunÄ…Ä‡ rekord?"));
+				panel.addComponent(new Label("Czy na pewno chcesz usun¹æ rekord?"));
 				panel.addComponent(new Label(""));
 				panel.addComponent(new EmptySpace());
 				panel.addComponent(new EmptySpace());
@@ -675,7 +675,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				Panel panel = new Panel();
 				panel_tmp.addComponent(panel);
 				panel.setLayoutManager(new GridLayout(2));
-				panel.addComponent(new Label("Czy na pewno chcesz usunÄ…Ä‡ rekord?"));
+				panel.addComponent(new Label("Czy na pewno chcesz usun¹æ rekord?"));
 				panel.addComponent(new Label(""));
 				panel.addComponent(new EmptySpace());
 				panel.addComponent(new EmptySpace());
@@ -750,7 +750,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 					Panel panel = new Panel();
 					panel_tmp.addComponent(panel);
 					panel.setLayoutManager(new GridLayout(2));
-					panel.addComponent(new Label("Czy na pewno chcesz usunÄ…Ä‡rekord?"));
+					panel.addComponent(new Label("Czy na pewno chcesz usun¹æ rekord?"));
 					panel.addComponent(new Label(""));
 					panel.addComponent(new EmptySpace());
 					panel.addComponent(new EmptySpace());
@@ -882,7 +882,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				mainpanel.addComponent(new EmptySpace());
 				mainpanel.addComponent(new EmptySpace());
 				// MiejscowoÅ›Ä‡
-				mainpanel.addComponent(new Label("MiejscowoÅ›Ä‡"));
+				mainpanel.addComponent(new Label("Miejscowoœæ"));
 				TextBox TextMiejscowosc = new TextBox().setPreferredSize(new TerminalSize(12, 1))
 						.setValidationPattern(Pattern.compile("[A-Z][a-z]*"));
 				mainpanel.addComponent(TextMiejscowosc);
@@ -895,14 +895,14 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 						if (TextPesel.getText().isEmpty() ||TextImie.getText().isEmpty() || TextNazwisko.getText().isEmpty() || TextWiek.getText().isEmpty()
 								|| TextUlica.getText().isEmpty() || TextNumerDomu.getText().isEmpty()
 								|| TextNumerMieszkania.getText().isEmpty() || TextMiejscowosc.getText().isEmpty()) {
-							new MessageDialogBuilder().setTitle("Error").setText("UzupeÅ‚nij puste pola.")
+							new MessageDialogBuilder().setTitle("Error").setText("Uzupe³nij puste pola.")
 									.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
 						}
 						Pacjent P =	C.getPacjenci().get(table.getSelectedRow());
 						for (Pacjent P1 : C.getPacjenci()) {
 
 							if (P1.getPesel().equals(TextPesel.getText()) && (P.getPesel() != P1.getPesel())) {
-								new MessageDialogBuilder().setTitle("Error").setText("Pesel juÅ¼ taki wystÄ™puje.")
+								new MessageDialogBuilder().setTitle("Error").setText("Pesel ju¿ taki wystêpuje.")
 										.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
 							}
 							else
@@ -1016,14 +1016,14 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 						if (TextLogin.getText().isEmpty() ||TextImie.getText().isEmpty() || TextNazwisko.getText().isEmpty() || TextWiek.getText().isEmpty()
 								|| TextSala.getText().isEmpty() || TextTelefon.getText().isEmpty()
 								|| TextHaslo.getText().isEmpty()) {
-							new MessageDialogBuilder().setTitle("Error").setText("UzupeÅ‚nij puste pola.")
+							new MessageDialogBuilder().setTitle("Error").setText("Uzupe³nij puste pola.")
 									.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
 						}
 						Lekarz L =	C.getLekarze().get(table.getSelectedRow());
 						for (Lekarz L1 : C.getLekarze()) {
 
 							if (L1.getLogin().equals(TextLogin.getText()) && (L.getLogin() != L1.getLogin())) {
-								new MessageDialogBuilder().setTitle("Error").setText("Pesel juÅ¼ taki wystÄ™puje.")
+								new MessageDialogBuilder().setTitle("Error").setText("Pesel ju¿ taki wystêpuje.")
 										.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
 							}
 							else
@@ -1487,7 +1487,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		mainpanel.addComponent(new EmptySpace());
 		mainpanel.addComponent(new EmptySpace());
 		// MiejscowoÅ›Ä‡
-		mainpanel.addComponent(new Label("MiejscowoÅ›Ä‡"));
+		mainpanel.addComponent(new Label("Miejscowoœæ"));
 		TextBox TextMiejscowosc = new TextBox().setPreferredSize(new TerminalSize(12, 1));
 		mainpanel.addComponent(TextMiejscowosc);
 		mainpanel.addComponent(new EmptySpace());
@@ -1499,7 +1499,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				if (TextImie.getText().isEmpty() || TextNazwisko.getText().isEmpty() || TextWiek.getText().isEmpty()
 						|| TextUlica.getText().isEmpty() || TextNumerDomu.getText().isEmpty()
 						|| TextNumerMieszkania.getText().isEmpty() || TextMiejscowosc.getText().isEmpty() || (TextPesel.getText().length() < 11)) {
-					new MessageDialogBuilder().setTitle("Error").setText("UzupeÅ‚nij prawidÅ‚owo pola.")
+					new MessageDialogBuilder().setTitle("Error").setText("Uzupe³nij prawid³owo pola.")
 							.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
 					return;
 					
@@ -1508,7 +1508,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 				for (Pacjent P : C.getPacjenci()) {
 
 					if (TextPesel.getText().equals(P.getPesel())) {
-						new MessageDialogBuilder().setTitle("Error").setText("Pesel juÅ¼ taki wystÃªeuje.")
+						new MessageDialogBuilder().setTitle("Error").setText("Pesel ju¿ taki wystêpêuje.")
 								.addButton(MessageDialogButton.Close.valueOf("OK")).build().showDialog(gui);
 						return;
 					}
@@ -1888,7 +1888,7 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 			Panel upPanel = new Panel().setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
 			upPanel.addComponent(new EmptySpace());
 			upPanel.withBorder(Borders.singleLineBevel());
-			upPanel.setSize(new TerminalSize(175, 2)).addComponent(new Label("Witaj "+ zalogowany.getImie() + " "+ zalogowany.getNazwisko()+". Centrala CiÄ™ widzi!"));
+			upPanel.setSize(new TerminalSize(175, 2)).addComponent(new Label("Witaj "+ zalogowany.getImie() + " "+ zalogowany.getNazwisko()+". Centrala Ciê widzi!"));
 			mainPanel.addComponent(upPanel);
 		}
 		else
@@ -1916,9 +1916,17 @@ if (keyStroke.getKeyType() == KeyType.F7 && przyciskPacjent == true && spr == tr
 		for (int a = 0; a < 200; a++)
 			abc.append(" ");
 
-		mainPanel.addComponent(new Label(abc.toString()).setBackgroundColor(TextColor.ANSI.BLUE)
+		mainPanel.addComponent(new Label("\r" + 
+				"  ______            __  __ ______ _____  "+ abc +"\r\n" + 
+				" |  ____|          |  \\/  |  ____|  __ \\"+ abc +"  \r\n" + 
+				" | |__     ______  | \\  / | |__  | |  | |"+ abc +"\r\n" + 
+				" |  __|   |______| | |\\/| |  __| | |  | |"+ abc +"\r\n" + 
+				" | |____           | |  | | |____| |__| |"+ abc +"\r\n" + 
+				" |______|          |_|  |_|______|_____/"+ abc + "\r\n" + 
+				"                                       " + abc +" \r" + 
+				
+				"").setBackgroundColor(TextColor.ANSI.BLUE)
 				.setForegroundColor(TextColor.ANSI.WHITE));
-		mainPanel.addComponent(new EmptySpace());
 
 		Panel menu = new Panel().setPreferredSize(new TerminalSize(175, 1));
 		menu.setLayoutManager(new LinearLayout(Direction.HORIZONTAL));
